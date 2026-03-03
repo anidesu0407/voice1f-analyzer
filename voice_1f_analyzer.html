@@ -203,7 +203,38 @@
   </ul>
 </div>
 
+<!-- Sample script -->
+<div class="card">
+  <div class="card-title">練習用サンプル台本（ナレーション・約30秒）</div>
+  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px;line-height:1.7;">このテキストをそのまま読んで録音してみてください。オレンジ色はト書き（抑揚のコツ）です。</p>
+  <div style="background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative;">
+    <button onclick="copyScript()" style="position:absolute;top:14px;right:14px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.7rem;padding:4px 10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'" id="copyBtn">コピー</button>
+    <div style="font-size:.95rem;line-height:2.4;color:var(--text);" id="scriptContent">
+      祖父が遺したのは、古びた懐中時計だった。<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ 静かに、低めのトーンから始める</span>
+      傷だらけで、針はとっくに止まっている。<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「とっくに止まっている」で語尾を落とす</span>
+      でも、蓋を開けると——<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「でも」で少し声を上げ、「——」で1秒ほど間を取る</span>
+      裏側に、小さな文字で刻まれていた。<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ ゆっくり、丁寧に</span>
+      「時間より大切なものを、生きろ」<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ ここが山場。少し高めに、はっきりと</span>
+      祖父が何を思ってこれを刻んだのか、今ならわかる気がした。<br>
+      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「今なら」で間を置き、「わかる気がした」は静かに余韻を残して</span>
+    </div>
+  </div>
+</div>
+
 <script>
+function copyScript(){
+  const text = `祖父が遺したのは、古びた懐中時計だった。\n傷だらけで、針はとっくに止まっている。\nでも、蓋を開けると——\n裏側に、小さな文字で刻まれていた。\n「時間より大切なものを、生きろ」\n祖父が何を思ってこれを刻んだのか、今ならわかる気がした。`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='コピー完了！';
+    setTimeout(()=>btn.textContent='コピー',2000);
+  });
+}
 let audioBuffer=null,audioCtx=null,mediaRecorder=null,recordedChunks=[],timerInterval=null,recordSeconds=0;
 
 function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
@@ -337,8 +368,8 @@ function analyze(){
   document.getElementById('metPitch').textContent=Math.round(mean);
   document.getElementById('slopeLabel').textContent=slope.toFixed(2);
   document.getElementById('slopeMarker').style.left=Math.min(100,Math.max(0,(-slope/2)*100))+'%';
-  drawSpectrum(logFreqs,logPowers,slope,intercept);
   document.getElementById('resultCard').classList.remove('hidden');
+  requestAnimationFrame(()=>drawSpectrum(logFreqs,logPowers,slope,intercept));
   document.getElementById('resultCard').scrollIntoView({behavior:'smooth'});
 }
 
