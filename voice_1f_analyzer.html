@@ -6,12 +6,7 @@
 <title>1/f ゆらぎ 声分析器</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
-  :root {
-    --bg:#0a0c10;--panel:#111318;--border:#1e2330;
-    --accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;
-    --text:#c8d0e0;--text-dim:#5a6070;
-    --glow:0 0 20px rgba(79,240,176,0.3);
-  }
+  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--text:#c8d0e0;--text-dim:#5a6070;--glow:0 0 20px rgba(79,240,176,0.3);}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;background-image:radial-gradient(ellipse at 20% 20%,rgba(79,240,176,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(126,184,255,0.04) 0%,transparent 60%);}
   header{text-align:center;margin-bottom:40px;}
@@ -20,26 +15,30 @@
   .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:700px;margin-bottom:20px;}
   .card-title{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
   .tab-row{display:flex;gap:8px;margin-bottom:20px;}
-  .tab-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.78rem;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .tab-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.78rem;cursor:pointer;transition:all .2s;}
   .tab-btn.active{background:rgba(79,240,176,.1);border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
-  .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:48px 20px;text-align:center;cursor:pointer;transition:all .3s ease;}
+  .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .3s ease;}
   .upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(79,240,176,.04);box-shadow:var(--glow);}
   .upload-zone input{display:none;}
-  .upload-icon{font-size:2.5rem;margin-bottom:12px;display:block;opacity:.6;}
-  .upload-zone p{color:var(--text-dim);font-size:.9rem;line-height:1.6;}
+  .upload-icon{font-size:2rem;margin-bottom:8px;display:block;opacity:.6;}
+  .upload-zone p{color:var(--text-dim);font-size:.85rem;line-height:1.6;}
   .upload-zone strong{color:var(--accent);}
-  .mic-zone{text-align:center;padding:32px 20px;}
-  .mic-btn{width:80px;height:80px;border-radius:50%;border:2px solid var(--accent);background:rgba(79,240,176,.08);color:var(--accent);font-size:2rem;cursor:pointer;transition:all .2s;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;}
+  .mic-zone{text-align:center;padding:20px 20px 8px;}
+  .mic-btn{width:72px;height:72px;border-radius:50%;border:2px solid var(--accent);background:rgba(79,240,176,.08);color:var(--accent);font-size:1.8rem;cursor:pointer;transition:all .2s;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
   .mic-btn:hover{background:rgba(79,240,176,.18);box-shadow:var(--glow);}
   .mic-btn.recording{background:rgba(255,107,107,.15);border-color:var(--accent2);color:var(--accent2);animation:pulse 1s ease-in-out infinite;}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,.4);}50%{box-shadow:0 0 0 12px rgba(255,107,107,0);}}
-  .mic-status{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--text-dim);margin-bottom:8px;}
-  .mic-timer{font-family:'Space Mono',monospace;font-size:1.4rem;color:var(--accent2);display:none;}
+  .mic-status{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--text-dim);margin-bottom:6px;}
+  .mic-timer{font-family:'Space Mono',monospace;font-size:1.3rem;color:var(--accent2);display:none;}
   .mic-timer.show{display:block;}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.05em;transition:all .2s ease;}
   .btn-primary{background:var(--accent);color:#0a0c10;font-weight:700;}
   .btn-primary:hover{background:#6fffc8;box-shadow:var(--glow);transform:translateY(-1px);}
   .btn-primary:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+  .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-dim);}
+  .btn-secondary:hover{border-color:var(--accent3);color:var(--accent3);}
+  .btn-tweet{background:#1d9bf0;color:#fff;font-weight:700;}
+  .btn-tweet:hover{background:#1a8cd8;transform:translateY(-1px);}
   .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;}
   .file-name{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .canvas-wrap{position:relative;width:100%;margin-bottom:12px;}
@@ -63,6 +62,7 @@
   .slope-marker{position:absolute;top:-4px;width:16px;height:16px;border-radius:50%;background:white;box-shadow:0 0 8px rgba(255,255,255,.5);transform:translateX(-50%);transition:left .8s cubic-bezier(.34,1.56,.64,1);}
   .slope-zones{display:flex;justify-content:space-between;margin-top:6px;}
   .slope-zone-label{font-size:.65rem;color:var(--text-dim);text-align:center;flex:1;}
+  .share-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
   .loading{display:none;text-align:center;padding:32px;}
   .loading.show{display:block;}
   .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
@@ -79,6 +79,12 @@
   .explain-card p{font-size:.75rem;color:var(--text-dim);line-height:1.6;}
   .explain-lead{font-size:.9rem;line-height:1.9;color:var(--text);margin-bottom:16px;}
   .explain-lead strong{color:var(--accent);}
+  .script-box{background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:.92rem;line-height:2.2;color:var(--text);}
+  .copy-btn-wrap{text-align:right;margin-top:12px;}
+  /* スペクトルグラフ凡例を外に出す */
+  .spec-legend{display:flex;gap:20px;justify-content:center;margin-top:10px;}
+  .spec-legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);}
+  .spec-legend-line{width:24px;height:2px;border-radius:2px;}
 </style>
 </head>
 <body>
@@ -90,27 +96,21 @@
 <!-- 1/f explanation -->
 <div class="card">
   <div class="card-title">1/f ゆらぎとは？</div>
-  <p class="explain-lead">
-    規則的すぎず、バラバラすぎない、<strong>ちょうどいいゆらぎ</strong>のこと。<br>
-    ろうそくの炎・川のせせらぎ・心拍など、自然界に広く存在し、<br>
-    人間が本能的に<strong>心地よい</strong>と感じるリズムパターンです。
-  </p>
+  <p class="explain-lead">規則的すぎず、バラバラすぎない、<strong>ちょうどいいゆらぎ</strong>のこと。<br>ろうそくの炎・川のせせらぎ・心拍など、自然界に広く存在し、人間が本能的に<strong>心地よい</strong>と感じるリズムパターンです。</p>
   <div class="explain-grid">
-    <div class="explain-card">
-      <div class="icon">🕯️</div>
-      <h4>自然界の例</h4>
-      <p>ろうそくの炎、波の音、木漏れ日、川のせせらぎ</p>
-    </div>
-    <div class="explain-card">
-      <div class="icon">💓</div>
-      <h4>人体の例</h4>
-      <p>心拍・呼吸・脳波のリズムも1/fゆらぎを持っている</p>
-    </div>
-    <div class="explain-card">
-      <div class="icon">🎙️</div>
-      <h4>声との関係</h4>
-      <p>声のピッチが1/fゆらぎに近いほど聴き手が心地よく感じやすい</p>
-    </div>
+    <div class="explain-card"><div class="icon">🕯️</div><h4>自然界の例</h4><p>ろうそくの炎、波の音、木漏れ日、川のせせらぎ</p></div>
+    <div class="explain-card"><div class="icon">💓</div><h4>人体の例</h4><p>心拍・呼吸・脳波のリズムも1/fゆらぎを持っている</p></div>
+    <div class="explain-card"><div class="icon">🎙️</div><h4>声との関係</h4><p>声のピッチが1/fゆらぎに近いほど聴き手が心地よく感じやすい</p></div>
+  </div>
+</div>
+
+<!-- Sample script -->
+<div class="card">
+  <div class="card-title">練習用サンプル台本（約30秒）</div>
+  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px;">このテキストをそのまま読んで録音してみてください。</p>
+  <div class="script-box" id="scriptText">祖父が遺したのは、古びた懐中時計だった。傷だらけで、針はとっくに止まっている。でも、蓋を開けると——裏側に、小さな文字で刻まれていた。「時間より大切なものを、生きろ」祖父が何を思ってこれを刻んだのか、今ならわかる気がした。</div>
+  <div class="copy-btn-wrap">
+    <button class="btn btn-secondary" id="copyBtn" onclick="copyScript()">📋 テキストをコピー</button>
   </div>
 </div>
 
@@ -121,12 +121,11 @@
     <button class="tab-btn active" id="tabFile" onclick="switchTab('file')">📁 ファイルをアップロード</button>
     <button class="tab-btn" id="tabMic" onclick="switchTab('mic')">🎙️ その場でマイク録音</button>
   </div>
-
   <div id="fileMode">
     <div class="upload-zone" id="dropZone">
       <label for="fileInput" style="cursor:pointer;display:block;">
         <span class="upload-icon">📂</span>
-        <p><strong>クリックまたはドラッグ＆ドロップ</strong><br>対応形式：WAV・MP3・M4A・OGG など<br><span style="font-size:.8rem">※ 5秒以上の発話推奨</span></p>
+        <p><strong>クリックまたはドラッグ＆ドロップ</strong><br>WAV・MP3・M4A・OGG など　※5秒以上推奨</p>
       </label>
       <input type="file" id="fileInput" accept="audio/*">
     </div>
@@ -135,7 +134,6 @@
       <button class="btn btn-primary" id="analyzeBtn" disabled>▶ 解析する</button>
     </div>
   </div>
-
   <div id="micMode" class="hidden">
     <div class="mic-zone">
       <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎙️</button>
@@ -157,10 +155,7 @@
 
 <!-- Loading -->
 <div class="card hidden" id="loadingCard">
-  <div class="loading show">
-    <div class="spinner"></div>
-    <p style="color:var(--text-dim);font-size:.9rem;">解析中…</p>
-  </div>
+  <div class="loading show"><div class="spinner"></div><p style="color:var(--text-dim);font-size:.9rem;">解析中…</p></div>
 </div>
 
 <!-- Results -->
@@ -185,8 +180,18 @@
     <div class="metric"><div class="metric-label">ピッチ検出フレーム数</div><div class="metric-value" id="metFrames">−</div><div class="metric-sub">有声区間</div></div>
     <div class="metric"><div class="metric-label">平均ピッチ</div><div class="metric-value" id="metPitch">−</div><div class="metric-sub">Hz</div></div>
   </div>
-  <div class="canvas-wrap"><canvas id="specCanvas" height="220"></canvas></div>
-  <p style="font-size:.72rem;color:var(--text-dim);text-align:center;margin-top:8px;">パワースペクトル（両対数）── 赤線が実測、緑破線が理想1/f</p>
+  <!-- Spectrum graph -->
+  <div class="canvas-wrap"><canvas id="specCanvas" height="200"></canvas></div>
+  <div class="spec-legend">
+    <div class="spec-legend-item"><div class="spec-legend-line" style="background:#ff6b6b;"></div>実測値</div>
+    <div class="spec-legend-item"><div class="spec-legend-line" style="background:rgba(79,240,176,0.7);border-top:2px dashed rgba(79,240,176,0.7);height:0;"></div>理想1/f</div>
+    <div class="spec-legend-item"><div class="spec-legend-line" style="background:rgba(126,184,255,0.7);"></div>回帰直線</div>
+  </div>
+  <!-- Share buttons -->
+  <div class="share-row">
+    <button class="btn btn-secondary" onclick="saveImage()">💾 画像で保存</button>
+    <button class="btn btn-tweet" onclick="tweetResult()">𝕏 結果をポスト</button>
+  </div>
 </div>
 
 <!-- Guide -->
@@ -197,45 +202,14 @@
     <li>傾きが <strong style="color:#ffd166">0 に近い</strong>ほど、ピッチが単調（変化が少ない）</li>
     <li>傾きが <strong style="color:var(--accent2)">−2 以下</strong>ほど、ピッチがバラバラ（ランダム）</li>
     <li>アナウンサーや落語家の声は −1 付近になりやすいと言われます</li>
-    <li>5秒以上の発話で精度が上がります。静かな環境推奨</li>
     <li>録音時間の目安：<strong style="color:var(--accent2)">5秒</strong> 最低限 ／ <strong style="color:#ffd166">15〜30秒</strong> 信頼性高い ／ <strong style="color:var(--accent)">1分以上</strong> かなり安定</li>
     <li>無音・息継ぎは除外されるため、録音時間より<strong style="color:var(--accent)">話している時間</strong>が重要です</li>
   </ul>
 </div>
 
-<!-- Sample script -->
-<div class="card">
-  <div class="card-title">練習用サンプル台本（ナレーション・約30秒）</div>
-  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px;line-height:1.7;">このテキストをそのまま読んで録音してみてください。オレンジ色はト書き（抑揚のコツ）です。</p>
-  <div style="background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;position:relative;">
-    <button onclick="copyScript()" style="position:absolute;top:14px;right:14px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.7rem;padding:4px 10px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'" id="copyBtn">コピー</button>
-    <div style="font-size:.95rem;line-height:2.4;color:var(--text);" id="scriptContent">
-      祖父が遺したのは、古びた懐中時計だった。<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ 静かに、低めのトーンから始める</span>
-      傷だらけで、針はとっくに止まっている。<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「とっくに止まっている」で語尾を落とす</span>
-      でも、蓋を開けると——<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「でも」で少し声を上げ、「——」で1秒ほど間を取る</span>
-      裏側に、小さな文字で刻まれていた。<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ ゆっくり、丁寧に</span>
-      「時間より大切なものを、生きろ」<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑ ここが山場。少し高めに、はっきりと</span>
-      祖父が何を思ってこれを刻んだのか、今ならわかる気がした。<br>
-      <span style="color:var(--accent2);font-size:.78rem;font-style:italic;">↑「今なら」で間を置き、「わかる気がした」は静かに余韻を残して</span>
-    </div>
-  </div>
-</div>
-
 <script>
-function copyScript(){
-  const text = `祖父が遺したのは、古びた懐中時計だった。\n傷だらけで、針はとっくに止まっている。\nでも、蓋を開けると——\n裏側に、小さな文字で刻まれていた。\n「時間より大切なものを、生きろ」\n祖父が何を思ってこれを刻んだのか、今ならわかる気がした。`;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.textContent='コピー完了！';
-    setTimeout(()=>btn.textContent='コピー',2000);
-  });
-}
 let audioBuffer=null,audioCtx=null,mediaRecorder=null,recordedChunks=[],timerInterval=null,recordSeconds=0;
+let lastResult=null;
 
 function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
@@ -247,6 +221,15 @@ function switchTab(mode){
   document.getElementById('waveCard').classList.add('hidden');
   document.getElementById('resultCard').classList.add('hidden');
   audioBuffer=null;
+}
+
+function copyScript(){
+  const text=document.getElementById('scriptText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='✅ コピーしました';
+    setTimeout(()=>btn.textContent='📋 テキストをコピー',2000);
+  });
 }
 
 const fileInput=document.getElementById('fileInput');
@@ -304,7 +287,7 @@ async function startRecording(){
       const m=Math.floor(recordSeconds/60),s=recordSeconds%60;
       document.getElementById('micTimer').textContent=m+':'+s.toString().padStart(2,'0');
     },1000);
-  }catch(e){alert('マイクへのアクセスが許可されていません。ブラウザの設定を確認してください。');}
+  }catch(e){alert('マイクへのアクセスが許可されていません。');}
 }
 
 function stopRecording(){
@@ -356,6 +339,9 @@ function analyze(){
   if(slope>=-1.3&&slope<=-0.7){vClass='good';vIcon='✨';vTitle='1/fゆらぎあり！';vDesc='ピッチのゆらぎが1/fに近い特徴を持っています。聞き手にとって心地よく感じられやすい声です。';}
   else if(slope>-0.7){vClass='warn';vIcon='📊';vTitle='やや単調';vDesc='ゆらぎが少なく、ピッチが安定しすぎています。抑揚をつけると1/fに近づきます。';}
   else{vClass='bad';vIcon='🌊';vTitle='ゆらぎが大きすぎる';vDesc='ピッチの変動が激しすぎます。もう少し落ち着いたトーンで話すと1/fに近づきます。';}
+
+  lastResult={slope,score,vClass,vTitle,mean:Math.round(mean),frames:pitchValues.length,logFreqs,logPowers,intercept};
+
   document.getElementById('verdictBox').className='verdict '+vClass;
   document.getElementById('verdictIcon').textContent=vIcon;
   document.getElementById('verdictTitle').textContent=vTitle;
@@ -402,43 +388,115 @@ function drawPitchTrack(pitches){
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
   ctx.stroke();
-  ctx.fillStyle='#5a6070';ctx.font=`${10*devicePixelRatio}px Space Mono`;
+  ctx.fillStyle='#5a6070';ctx.font=`${10*devicePixelRatio}px monospace`;
   ctx.fillText('PITCH TRACK',8*devicePixelRatio,14*devicePixelRatio);
 }
 
 function drawSpectrum(logFreqs,logPowers,slope,intercept){
   const canvas=document.getElementById('specCanvas');
-  const W=canvas.offsetWidth*devicePixelRatio,H=220*devicePixelRatio;
+  const W=canvas.offsetWidth*devicePixelRatio,H=200*devicePixelRatio;
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext('2d');ctx.fillStyle='#080a0e';ctx.fillRect(0,0,W,H);
   if(logFreqs.length<2)return;
-  const pad={l:50*devicePixelRatio,r:20*devicePixelRatio,t:20*devicePixelRatio,b:36*devicePixelRatio};
+  const pad={l:52*devicePixelRatio,r:24*devicePixelRatio,t:16*devicePixelRatio,b:32*devicePixelRatio};
   const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
   const xMin=logFreqs[0],xMax=logFreqs[logFreqs.length-1];
   const yMin=Math.min(...logPowers),yMax=Math.max(...logPowers);
+  const yPad=(yMax-yMin)*0.08;
+  const yLo=yMin-yPad,yHi=yMax+yPad;
   const toX=v=>pad.l+((v-xMin)/(xMax-xMin))*pw;
-  const toY=v=>pad.t+ph-((v-yMin)/(yMax-yMin))*ph;
-  ctx.strokeStyle='#1a1e28';ctx.lineWidth=1;
+  const toY=v=>pad.t+ph-((v-yLo)/(yHi-yLo))*ph;
+  // grid
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
   for(let i=0;i<=4;i++){const y=pad.t+(ph/4)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
-  const cx=(xMin+xMax)/2,cy=(yMin+yMax)/2;
-  ctx.strokeStyle='rgba(79,240,176,0.5)';ctx.lineWidth=1.5*devicePixelRatio;
+  for(let i=0;i<=4;i++){const x=pad.l+(pw/4)*i;ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();}
+  // ideal 1/f dashed
+  const cx=(xMin+xMax)/2,cy=(yLo+yHi)/2;
+  ctx.strokeStyle='rgba(79,240,176,0.6)';ctx.lineWidth=1.5*devicePixelRatio;
   ctx.setLineDash([6*devicePixelRatio,4*devicePixelRatio]);
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
   ctx.setLineDash([]);
-  ctx.strokeStyle='rgba(126,184,255,0.7)';ctx.lineWidth=2*devicePixelRatio;
+  // regression line
+  ctx.strokeStyle='rgba(126,184,255,0.8)';ctx.lineWidth=1.5*devicePixelRatio;
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(slope*xMin+intercept));ctx.lineTo(toX(xMax),toY(slope*xMax+intercept));ctx.stroke();
+  // actual spectrum
   ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5*devicePixelRatio;ctx.beginPath();
   for(let i=0;i<logFreqs.length;i++){const x=toX(logFreqs[i]),y=toY(logPowers[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
   ctx.stroke();
-  ctx.fillStyle='#5a6070';ctx.font=`${9*devicePixelRatio}px Space Mono`;
-  ctx.fillText('log(周波数)',W/2,H-4*devicePixelRatio);
-  ctx.save();ctx.translate(12*devicePixelRatio,H/2);ctx.rotate(-Math.PI/2);ctx.fillText('log(パワー)',0,0);ctx.restore();
-  const lx=pad.l+pw-150*devicePixelRatio,ly=pad.t+10*devicePixelRatio;
-  ctx.font=`${9*devicePixelRatio}px Space Mono`;
-  ctx.fillStyle='#ff6b6b';ctx.fillRect(lx,ly,16*devicePixelRatio,2*devicePixelRatio);
-  ctx.fillStyle='#c8d0e0';ctx.fillText('実測',lx+20*devicePixelRatio,ly+6*devicePixelRatio);
-  ctx.fillStyle='rgba(79,240,176,0.7)';ctx.fillRect(lx,ly+14*devicePixelRatio,16*devicePixelRatio,2*devicePixelRatio);
-  ctx.fillStyle='#c8d0e0';ctx.fillText('理想1/f',lx+20*devicePixelRatio,ly+20*devicePixelRatio);
+  // axis labels
+  ctx.fillStyle='#5a6070';ctx.font=`${9*devicePixelRatio}px monospace`;
+  ctx.textAlign='center';ctx.fillText('log(周波数)',pad.l+pw/2,H-4*devicePixelRatio);
+  ctx.textAlign='left';
+  ctx.save();ctx.translate(10*devicePixelRatio,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('log(パワー)',0,0);ctx.restore();
+}
+
+// Save result as image
+function saveImage(){
+  if(!lastResult)return;
+  const r=lastResult;
+  const W=600,H=400;
+  const offscreen=document.createElement('canvas');
+  offscreen.width=W;offscreen.height=H;
+  const ctx=offscreen.getContext('2d');
+  // background
+  ctx.fillStyle='#0a0c10';ctx.fillRect(0,0,W,H);
+  // border
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;ctx.strokeRect(1,1,W-2,H-2);
+  // title
+  ctx.fillStyle='#4ff0b0';ctx.font='bold 18px monospace';ctx.textAlign='center';
+  ctx.fillText('1/f VOICE ANALYZER',W/2,36);
+  // verdict
+  const vColor=r.vClass==='good'?'#4ff0b0':r.vClass==='warn'?'#ffd166':'#ff6b6b';
+  ctx.fillStyle=vColor;ctx.font='bold 22px sans-serif';ctx.textAlign='center';
+  ctx.fillText(r.vTitle,W/2,76);
+  // score big
+  ctx.fillStyle=vColor;ctx.font='bold 64px monospace';ctx.textAlign='center';
+  ctx.fillText(r.score+'点',W/2,158);
+  // sub metrics
+  ctx.fillStyle='#c8d0e0';ctx.font='14px monospace';ctx.textAlign='center';
+  ctx.fillText('パワースペクトル傾き: '+r.slope.toFixed(2)+'　　平均ピッチ: '+r.mean+'Hz',W/2,192);
+  // spectrum mini graph
+  const pad={l:60,r:24,t:218,b:H-32};
+  const ph=pad.b-pad.t;const pw=W-pad.l-pad.r;
+  const lf=r.logFreqs,lp=r.logPowers;
+  if(lf.length>1){
+    const xMin=lf[0],xMax=lf[lf.length-1];
+    const yMin=Math.min(...lp),yMax=Math.max(...lp);
+    const yPad=(yMax-yMin)*0.08,yLo=yMin-yPad,yHi=yMax+yPad;
+    const toX=v=>pad.l+((v-xMin)/(xMax-xMin))*pw;
+    const toY=v=>pad.t+ph-((v-yLo)/(yHi-yLo))*ph;
+    ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
+    for(let i=0;i<=3;i++){const y=pad.t+(ph/3)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
+    const cx=(xMin+xMax)/2,cy=(yLo+yHi)/2;
+    ctx.strokeStyle='rgba(79,240,176,0.5)';ctx.lineWidth=1.5;
+    ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(126,184,255,0.7)';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(toX(xMin),toY(r.slope*xMin+r.intercept));ctx.lineTo(toX(xMax),toY(r.slope*xMax+r.intercept));ctx.stroke();
+    ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5;ctx.beginPath();
+    for(let i=0;i<lf.length;i++){const x=toX(lf[i]),y=toY(lp[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+    ctx.stroke();
+  }
+  // url watermark
+  ctx.fillStyle='#3a4050';ctx.font='11px monospace';ctx.textAlign='center';
+  ctx.fillText('anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html',W/2,H-10);
+  // download
+  const link=document.createElement('a');
+  link.download='1f_voice_result.png';
+  link.href=offscreen.toDataURL('image/png');
+  link.click();
+}
+
+// Tweet result
+function tweetResult(){
+  if(!lastResult)return;
+  const r=lastResult;
+  const verdict=r.vClass==='good'?'1/fゆらぎあり！':r.vClass==='warn'?'やや単調':'ゆらぎが大きすぎる';
+  const text=`自分の声の1/fゆらぎを測定しました！\n\n判定: ${verdict}\n1/f近似度: ${r.score}点\nパワースペクトル傾き: ${r.slope.toFixed(2)}\n平均ピッチ: ${r.mean}Hz\n\nあなたも測定してみてください👇`;
+  const url='https://anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html';
+  const tweetUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url);
+  window.open(tweetUrl,'_blank');
 }
 
 function nextPow2(n){let p=1;while(p<n)p<<=1;return p;}
