@@ -431,7 +431,7 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   const items=[
     {color:'#ff6b6b',dash:false,bold:false,label:'実測値'},
     {color:'rgba(79,240,176,0.8)',dash:true,bold:false,label:'理想1/f'},
-    {color:'rgba(126,184,255,0.9)',dash:false,bold:true,label:'回帰直線'},
+    {color:'rgba(126,184,255,0.9)',dash:false,bold:true,label:'実測の平均値'},
   ];
   items.forEach((item,i)=>{
     const y=pad.t+ph*0.2+i*(ph*0.28);
