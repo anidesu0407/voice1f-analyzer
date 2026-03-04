@@ -249,10 +249,13 @@ async function startRecording(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     recordedChunks=[];
-    mediaRecorder=new MediaRecorder(stream);
+    const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' :
+                     MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '';
+    mediaRecorder = mimeType ? new MediaRecorder(stream, {mimeType}) : new MediaRecorder(stream);
     mediaRecorder.ondataavailable=e=>{if(e.data.size>0)recordedChunks.push(e.data);};
     mediaRecorder.onstop=async()=>{
-      const blob=new Blob(recordedChunks,{type:'audio/webm'});
+      const mimeUsed = mediaRecorder.mimeType || 'audio/webm';
+      const blob=new Blob(recordedChunks,{type:mimeUsed});
       lastBlob=blob;
       // Audio player
       const player=document.getElementById('audioPlayer');
@@ -403,19 +406,19 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
   for(let i=0;i<=4;i++){const y=pad.t+(ph/4)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
   for(let i=0;i<=4;i++){const x=pad.l+(pw/4)*i;ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();}
-  // ideal 1/f — green dashed
+  // 1) actual spectrum — red 70% transparency (behind)
+  ctx.strokeStyle='rgba(255,107,107,0.7)';ctx.lineWidth=1.2*devicePixelRatio;ctx.beginPath();
+  for(let i=0;i<logFreqs.length;i++){const x=toX(logFreqs[i]),y=toY(logPowers[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  // 2) ideal 1/f — green dashed (middle)
   const cx=(xMin+xMax)/2,cy=(yLo+yHi)/2;
-  ctx.strokeStyle='rgba(79,240,176,0.7)';ctx.lineWidth=1.5*devicePixelRatio;
+  ctx.strokeStyle='rgba(79,240,176,0.9)';ctx.lineWidth=2*devicePixelRatio;
   ctx.setLineDash([6*devicePixelRatio,4*devicePixelRatio]);
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
   ctx.setLineDash([]);
-  // regression line — blue bold
-  ctx.strokeStyle='rgba(126,184,255,0.9)';ctx.lineWidth=2.5*devicePixelRatio;
+  // 3) regression line — blue bold (front)
+  ctx.strokeStyle='rgba(126,184,255,1.0)';ctx.lineWidth=2.5*devicePixelRatio;
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(slope*xMin+intercept));ctx.lineTo(toX(xMax),toY(slope*xMax+intercept));ctx.stroke();
-  // actual spectrum — red thin
-  ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.2*devicePixelRatio;ctx.beginPath();
-  for(let i=0;i<logFreqs.length;i++){const x=toX(logFreqs[i]),y=toY(logPowers[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
-  ctx.stroke();
   // axis labels
   ctx.fillStyle='#5a6070';ctx.font=`${9*devicePixelRatio}px monospace`;
   ctx.textAlign='center';ctx.fillText('log(周波数)',pad.l+pw/2,H-4*devicePixelRatio);
@@ -495,10 +498,19 @@ function saveImage(){
   }
   ctx.fillStyle='#3a4050';ctx.font='10px monospace';ctx.textAlign='center';
   ctx.fillText('anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html',W/2,H-10);
-  const link=document.createElement('a');
-  link.download='1f_voice_result.png';
-  link.href=c.toDataURL('image/png');
-  link.click();
+  const dataUrl = c.toDataURL('image/png');
+  // iOS Safari対応: 新しいタブで画像を開く
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isIOS){
+    const w = window.open('','_blank');
+    w.document.write('<html><body style="margin:0;background:#000"><img src="'+dataUrl+'" style="max-width:100%" /><br><p style="color:#fff;text-align:center;font-size:14px">画像を長押しして保存してください</p></body></html>');
+    w.document.close();
+  } else {
+    const link=document.createElement('a');
+    link.download='1f_voice_result.png';
+    link.href=dataUrl;
+    link.click();
+  }
 }
 
 // Tweet
