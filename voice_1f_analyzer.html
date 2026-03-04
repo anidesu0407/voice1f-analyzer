@@ -6,14 +6,14 @@
 <title>1/f ゆらぎ 声分析器</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
-  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--text:#c8d0e0;--text-dim:#5a6070;--glow:0 0 20px rgba(79,240,176,0.3);}
+  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--text:#c8d0e0;--text-dim:#6a7080;--glow:0 0 20px rgba(79,240,176,0.3);}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;background-image:radial-gradient(ellipse at 20% 20%,rgba(79,240,176,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(126,184,255,0.04) 0%,transparent 60%);}
   header{text-align:center;margin-bottom:40px;}
   header h1{font-family:'Space Mono',monospace;font-size:clamp(1.4rem,4vw,2.2rem);color:var(--accent);letter-spacing:.1em;text-shadow:var(--glow);margin-bottom:8px;}
-  header p{color:var(--text-dim);font-size:.9rem;font-weight:300;}
+  header p{color:var(--text-dim);font-size:.95rem;font-weight:300;}
   .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:700px;margin-bottom:20px;}
-  .card-title{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+  .card-title{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--accent3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
   .tab-row{display:flex;gap:8px;margin-bottom:20px;}
   .tab-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.78rem;cursor:pointer;transition:all .2s;}
   .tab-btn.active{background:rgba(79,240,176,.1);border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
@@ -21,14 +21,14 @@
   .upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(79,240,176,.04);box-shadow:var(--glow);}
   .upload-zone input{display:none;}
   .upload-icon{font-size:2rem;margin-bottom:8px;display:block;opacity:.6;}
-  .upload-zone p{color:var(--text-dim);font-size:.85rem;line-height:1.6;}
+  .upload-zone p{color:var(--text-dim);font-size:.9rem;line-height:1.7;}
   .upload-zone strong{color:var(--accent);}
   .mic-zone{text-align:center;padding:20px 20px 8px;}
   .mic-btn{width:72px;height:72px;border-radius:50%;border:2px solid var(--accent);background:rgba(79,240,176,.08);color:var(--accent);font-size:1.8rem;cursor:pointer;transition:all .2s;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
   .mic-btn:hover{background:rgba(79,240,176,.18);box-shadow:var(--glow);}
   .mic-btn.recording{background:rgba(255,107,107,.15);border-color:var(--accent2);color:var(--accent2);animation:pulse 1s ease-in-out infinite;}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,.4);}50%{box-shadow:0 0 0 12px rgba(255,107,107,0);}}
-  .mic-status{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--text-dim);margin-bottom:6px;}
+  .mic-status{font-size:.9rem;color:var(--text-dim);margin-bottom:6px;}
   .mic-timer{font-family:'Space Mono',monospace;font-size:1.3rem;color:var(--accent2);display:none;}
   .mic-timer.show{display:block;}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.05em;transition:all .2s ease;}
@@ -43,48 +43,44 @@
   .file-name{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .canvas-wrap{position:relative;width:100%;margin-bottom:12px;}
   canvas{width:100%;border-radius:8px;background:#080a0e;display:block;}
+  .audio-player{width:100%;margin-top:12px;border-radius:8px;accent-color:var(--accent);}
   .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
   .metric{background:#080a0e;border:1px solid var(--border);border-radius:10px;padding:16px;}
-  .metric-label{font-size:.72rem;color:var(--text-dim);letter-spacing:.1em;margin-bottom:6px;}
+  .metric-label{font-size:.78rem;color:var(--text-dim);letter-spacing:.05em;margin-bottom:6px;}
   .metric-value{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;}
-  .metric-sub{font-size:.72rem;color:var(--text-dim);margin-top:4px;}
+  .metric-sub{font-size:.75rem;color:var(--text-dim);margin-top:4px;}
   .good{color:var(--accent);}.warn{color:#ffd166;}.bad{color:var(--accent2);}
   .verdict{border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;margin-bottom:20px;}
   .verdict.good{background:rgba(79,240,176,.08);border:1px solid rgba(79,240,176,.3);}
   .verdict.warn{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.3);}
   .verdict.bad{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);}
   .verdict-icon{font-size:2rem;flex-shrink:0;}
-  .verdict-text h3{font-size:1rem;font-weight:700;margin-bottom:4px;}
-  .verdict-text p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+  .verdict-text h3{font-size:1.05rem;font-weight:700;margin-bottom:4px;}
+  .verdict-text p{font-size:.88rem;color:var(--text-dim);line-height:1.7;}
   .slope-bar-wrap{margin:20px 0;}
-  .slope-label-row{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-dim);margin-bottom:6px;font-family:'Space Mono',monospace;}
+  .slope-label-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-dim);margin-bottom:6px;font-family:'Space Mono',monospace;}
   .slope-track{height:8px;border-radius:4px;background:linear-gradient(to right,#7eb8ff,#4ff0b0,#ffd166,#ff6b6b);position:relative;}
   .slope-marker{position:absolute;top:-4px;width:16px;height:16px;border-radius:50%;background:white;box-shadow:0 0 8px rgba(255,255,255,.5);transform:translateX(-50%);transition:left .8s cubic-bezier(.34,1.56,.64,1);}
   .slope-zones{display:flex;justify-content:space-between;margin-top:6px;}
-  .slope-zone-label{font-size:.65rem;color:var(--text-dim);text-align:center;flex:1;}
+  .slope-zone-label{font-size:.68rem;color:var(--text-dim);text-align:center;flex:1;}
   .share-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
   .loading{display:none;text-align:center;padding:32px;}
   .loading.show{display:block;}
   .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .hidden{display:none!important;}
-  .howto{font-size:.82rem;color:var(--text-dim);line-height:1.8;}
-  .howto li{margin-bottom:4px;list-style:none;padding-left:1.2em;position:relative;}
+  .howto{font-size:.88rem;color:var(--text);line-height:2.0;}
+  .howto li{margin-bottom:6px;list-style:none;padding-left:1.4em;position:relative;}
   .howto li::before{content:'›';position:absolute;left:0;color:var(--accent);}
   .explain-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;}
   @media(max-width:500px){.explain-grid{grid-template-columns:1fr;}}
   .explain-card{background:#080a0e;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;}
   .explain-card .icon{font-size:1.8rem;margin-bottom:8px;}
-  .explain-card h4{font-size:.82rem;font-weight:700;margin-bottom:6px;}
-  .explain-card p{font-size:.75rem;color:var(--text-dim);line-height:1.6;}
-  .explain-lead{font-size:.9rem;line-height:1.9;color:var(--text);margin-bottom:16px;}
+  .explain-card h4{font-size:.88rem;font-weight:700;margin-bottom:6px;color:var(--text);}
+  .explain-card p{font-size:.8rem;color:var(--text-dim);line-height:1.7;}
+  .explain-lead{font-size:.95rem;line-height:1.9;color:var(--text);margin-bottom:16px;}
   .explain-lead strong{color:var(--accent);}
-  .script-box{background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:.92rem;line-height:2.2;color:var(--text);}
-
-  /* スペクトルグラフ凡例を外に出す */
-  .spec-legend{display:flex;gap:20px;justify-content:center;margin-top:10px;}
-  .spec-legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);}
-  .spec-legend-line{width:24px;height:2px;border-radius:2px;}
+  .script-box{background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:.95rem;line-height:2.3;color:var(--text);}
 </style>
 </head>
 <body>
@@ -107,8 +103,8 @@
 <!-- Sample script -->
 <div class="card">
   <div class="card-title">練習用サンプル台本（約30秒）</div>
-  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px;">このテキストをそのまま読んで録音してみてください。</p>
-  <div class="script-box" id="scriptText">祖父が遺したのは、古びた懐中時計だった。傷だらけで、針はとっくに止まっている。でも、蓋を開けると——裏側に、小さな文字で刻まれていた。「時間より大切なものを、生きろ」祖父が何を思ってこれを刻んだのか、今ならわかる気がした。</div>
+  <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:16px;line-height:1.7;">このテキストをそのまま読んで録音してみてください。</p>
+  <div class="script-box">祖父が遺したのは、古びた懐中時計だった。傷だらけで、針はとっくに止まっている。でも、蓋を開けると——裏側に、小さな文字で刻まれていた。「時間より大切なものを、生きろ」祖父が何を思ってこれを刻んだのか、今ならわかる気がした。</div>
 </div>
 
 <!-- Input -->
@@ -141,6 +137,8 @@
       <button class="btn btn-primary" id="micAnalyzeBtn" disabled>▶ 解析する</button>
     </div>
   </div>
+  <!-- Audio player -->
+  <audio id="audioPlayer" class="audio-player hidden" controls></audio>
 </div>
 
 <!-- Waveform -->
@@ -177,14 +175,8 @@
     <div class="metric"><div class="metric-label">ピッチ検出フレーム数</div><div class="metric-value" id="metFrames">−</div><div class="metric-sub">有声区間</div></div>
     <div class="metric"><div class="metric-label">平均ピッチ</div><div class="metric-value" id="metPitch">−</div><div class="metric-sub">Hz</div></div>
   </div>
-  <!-- Spectrum graph -->
   <div class="canvas-wrap"><canvas id="specCanvas" height="200"></canvas></div>
-  <div class="spec-legend">
-    <div class="spec-legend-item"><div class="spec-legend-line" style="background:#ff6b6b;"></div>実測値</div>
-    <div class="spec-legend-item"><div class="spec-legend-line" style="background:rgba(79,240,176,0.7);border-top:2px dashed rgba(79,240,176,0.7);height:0;"></div>理想1/f</div>
-    <div class="spec-legend-item"><div class="spec-legend-line" style="background:rgba(126,184,255,0.7);"></div>回帰直線</div>
-  </div>
-  <!-- Share buttons -->
+  <p style="font-size:.75rem;color:var(--text-dim);text-align:center;margin-top:6px;">パワースペクトル（両対数グラフ）</p>
   <div class="share-row">
     <button class="btn btn-secondary" onclick="saveImage()">💾 画像で保存</button>
     <button class="btn btn-tweet" onclick="tweetResult()">𝕏 結果をポスト</button>
@@ -206,7 +198,7 @@
 
 <script>
 let audioBuffer=null,audioCtx=null,mediaRecorder=null,recordedChunks=[],timerInterval=null,recordSeconds=0;
-let lastResult=null;
+let lastResult=null,lastBlob=null;
 
 function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
@@ -217,16 +209,8 @@ function switchTab(mode){
   document.getElementById('micMode').classList.toggle('hidden',mode!=='mic');
   document.getElementById('waveCard').classList.add('hidden');
   document.getElementById('resultCard').classList.add('hidden');
-  audioBuffer=null;
-}
-
-function copyScript(){
-  const text=document.getElementById('scriptText').textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.textContent='✅ コピーしました';
-    setTimeout(()=>btn.textContent='📋 テキストをコピー',2000);
-  });
+  document.getElementById('audioPlayer').classList.add('hidden');
+  audioBuffer=null;lastBlob=null;
 }
 
 const fileInput=document.getElementById('fileInput');
@@ -241,6 +225,11 @@ function loadFile(file){
   if(!file)return;
   document.getElementById('fileName').textContent=file.name;
   analyzeBtn.disabled=false;
+  // Audio player
+  const player=document.getElementById('audioPlayer');
+  const objUrl=URL.createObjectURL(file);
+  player.src=objUrl;
+  player.classList.remove('hidden');
   const reader=new FileReader();
   reader.onload=async ev=>{
     try{const ctx=getCtx();audioBuffer=await ctx.decodeAudioData(ev.target.result);drawWaveform();}
@@ -263,12 +252,17 @@ async function startRecording(){
     mediaRecorder.ondataavailable=e=>{if(e.data.size>0)recordedChunks.push(e.data);};
     mediaRecorder.onstop=async()=>{
       const blob=new Blob(recordedChunks,{type:'audio/webm'});
+      lastBlob=blob;
+      // Audio player
+      const player=document.getElementById('audioPlayer');
+      player.src=URL.createObjectURL(blob);
+      player.classList.remove('hidden');
       const arrayBuf=await blob.arrayBuffer();
       try{
         const ctx=getCtx();audioBuffer=await ctx.decodeAudioData(arrayBuf);
         drawWaveform();
         document.getElementById('micAnalyzeBtn').disabled=false;
-        document.getElementById('micStatus').textContent='録音完了（'+recordSeconds+'秒）　▶ 解析するを押してください';
+        document.getElementById('micStatus').textContent='録音完了（'+recordSeconds+'秒）';
       }catch(e){alert('録音データの処理に失敗しました: '+e.message);}
       stream.getTracks().forEach(t=>t.stop());
     };
@@ -279,6 +273,7 @@ async function startRecording(){
     document.getElementById('micStatus').textContent='録音中… もう一度押すと停止';
     document.getElementById('micTimer').classList.add('show');
     document.getElementById('micAnalyzeBtn').disabled=true;
+    document.getElementById('audioPlayer').classList.add('hidden');
     timerInterval=setInterval(()=>{
       recordSeconds++;
       const m=Math.floor(recordSeconds/60),s=recordSeconds%60;
@@ -336,9 +331,7 @@ function analyze(){
   if(slope>=-1.3&&slope<=-0.7){vClass='good';vIcon='✨';vTitle='1/fゆらぎあり！';vDesc='ピッチのゆらぎが1/fに近い特徴を持っています。聞き手にとって心地よく感じられやすい声です。';}
   else if(slope>-0.7){vClass='warn';vIcon='📊';vTitle='やや単調';vDesc='ゆらぎが少なく、ピッチが安定しすぎています。抑揚をつけると1/fに近づきます。';}
   else{vClass='bad';vIcon='🌊';vTitle='ゆらぎが大きすぎる';vDesc='ピッチの変動が激しすぎます。もう少し落ち着いたトーンで話すと1/fに近づきます。';}
-
   lastResult={slope,score,vClass,vTitle,mean:Math.round(mean),frames:pitchValues.length,logFreqs,logPowers,intercept};
-
   document.getElementById('verdictBox').className='verdict '+vClass;
   document.getElementById('verdictIcon').textContent=vIcon;
   document.getElementById('verdictTitle').textContent=vTitle;
@@ -395,12 +388,13 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext('2d');ctx.fillStyle='#080a0e';ctx.fillRect(0,0,W,H);
   if(logFreqs.length<2)return;
-  const pad={l:52*devicePixelRatio,r:72*devicePixelRatio,t:16*devicePixelRatio,b:32*devicePixelRatio};
+  // legend width
+  const legendW=80*devicePixelRatio;
+  const pad={l:52*devicePixelRatio,r:legendW+8*devicePixelRatio,t:16*devicePixelRatio,b:32*devicePixelRatio};
   const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
   const xMin=logFreqs[0],xMax=logFreqs[logFreqs.length-1];
   const yMin=Math.min(...logPowers),yMax=Math.max(...logPowers);
-  const yPad=(yMax-yMin)*0.08;
-  const yLo=yMin-yPad,yHi=yMax+yPad;
+  const yPad=(yMax-yMin)*0.08,yLo=yMin-yPad,yHi=yMax+yPad;
   const toX=v=>pad.l+((v-xMin)/(xMax-xMin))*pw;
   const toY=v=>pad.t+ph-((v-yLo)/(yHi-yLo))*ph;
   // grid
@@ -413,7 +407,7 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   ctx.setLineDash([6*devicePixelRatio,4*devicePixelRatio]);
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
   ctx.setLineDash([]);
-  // regression line — blue bold solid
+  // regression line — blue bold
   ctx.strokeStyle='rgba(126,184,255,0.9)';ctx.lineWidth=2.5*devicePixelRatio;
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(slope*xMin+intercept));ctx.lineTo(toX(xMax),toY(slope*xMax+intercept));ctx.stroke();
   // actual spectrum — red thin
@@ -424,54 +418,51 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   ctx.fillStyle='#5a6070';ctx.font=`${9*devicePixelRatio}px monospace`;
   ctx.textAlign='center';ctx.fillText('log(周波数)',pad.l+pw/2,H-4*devicePixelRatio);
   ctx.save();ctx.translate(10*devicePixelRatio,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('log(パワー)',0,0);ctx.restore();
-  // right-side legend
-  const lx=pad.l+pw+8*devicePixelRatio;
-  const fs=8.5*devicePixelRatio;
+  // right legend
+  const lx=pad.l+pw+10*devicePixelRatio;
+  const fs=9*devicePixelRatio;
   ctx.font=`${fs}px monospace`;ctx.textAlign='left';
   const items=[
     {color:'#ff6b6b',dash:false,bold:false,label:'実測値'},
     {color:'rgba(79,240,176,0.8)',dash:true,bold:false,label:'理想1/f'},
-    {color:'rgba(126,184,255,0.9)',dash:false,bold:true,label:'実測の平均値'},
+    {color:'rgba(126,184,255,0.9)',dash:false,bold:true,label:'実測の\n平均値'},
   ];
   items.forEach((item,i)=>{
-    const y=pad.t+ph*0.2+i*(ph*0.28);
+    const baseY=pad.t+ph*0.15+i*(ph*0.3);
     ctx.strokeStyle=item.color;
     ctx.lineWidth=item.bold?2.5*devicePixelRatio:1.5*devicePixelRatio;
     if(item.dash)ctx.setLineDash([4*devicePixelRatio,3*devicePixelRatio]);else ctx.setLineDash([]);
-    ctx.beginPath();ctx.moveTo(lx,y);ctx.lineTo(lx+14*devicePixelRatio,y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(lx,baseY);ctx.lineTo(lx+14*devicePixelRatio,baseY);ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle='#7a8898';ctx.fillText(item.label,lx+18*devicePixelRatio,y+3*devicePixelRatio);
+    ctx.fillStyle='#8090a0';
+    const lines=item.label.split('\n');
+    lines.forEach((line,li)=>{
+      ctx.fillText(line,lx+18*devicePixelRatio,baseY+(li*fs*1.3)+3*devicePixelRatio);
+    });
   });
 }
 
-// Save result as image
+// Save image
 function saveImage(){
   if(!lastResult)return;
   const r=lastResult;
   const W=600,H=400;
-  const offscreen=document.createElement('canvas');
-  offscreen.width=W;offscreen.height=H;
-  const ctx=offscreen.getContext('2d');
-  // background
+  const c=document.createElement('canvas');c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
   ctx.fillStyle='#0a0c10';ctx.fillRect(0,0,W,H);
-  // border
   ctx.strokeStyle='#1e2330';ctx.lineWidth=1;ctx.strokeRect(1,1,W-2,H-2);
-  // title
   ctx.fillStyle='#4ff0b0';ctx.font='bold 18px monospace';ctx.textAlign='center';
   ctx.fillText('1/f VOICE ANALYZER',W/2,36);
-  // verdict
   const vColor=r.vClass==='good'?'#4ff0b0':r.vClass==='warn'?'#ffd166':'#ff6b6b';
   ctx.fillStyle=vColor;ctx.font='bold 22px sans-serif';ctx.textAlign='center';
   ctx.fillText(r.vTitle,W/2,76);
-  // score big
   ctx.fillStyle=vColor;ctx.font='bold 64px monospace';ctx.textAlign='center';
   ctx.fillText(r.score+'点',W/2,158);
-  // sub metrics
   ctx.fillStyle='#c8d0e0';ctx.font='14px monospace';ctx.textAlign='center';
-  ctx.fillText('パワースペクトル傾き: '+r.slope.toFixed(2)+'　　平均ピッチ: '+r.mean+'Hz',W/2,192);
-  // spectrum mini graph
-  const pad={l:60,r:24,t:218,b:H-32};
-  const ph=pad.b-pad.t;const pw=W-pad.l-pad.r;
+  ctx.fillText('傾き: '+r.slope.toFixed(2)+'（理想値: -1.0）　平均ピッチ: '+r.mean+'Hz',W/2,192);
+  // mini graph
+  const pad={l:60,r:80,t:218,b:H-32};
+  const ph=pad.b-pad.t,pw=W-pad.l-pad.r;
   const lf=r.logFreqs,lp=r.logPowers;
   if(lf.length>1){
     const xMin=lf[0],xMax=lf[lf.length-1];
@@ -482,39 +473,43 @@ function saveImage(){
     ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
     for(let i=0;i<=3;i++){const y=pad.t+(ph/3)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
     const cx=(xMin+xMax)/2,cy=(yLo+yHi)/2;
-    ctx.strokeStyle='rgba(79,240,176,0.5)';ctx.lineWidth=1.5;
-    ctx.setLineDash([5,4]);
+    ctx.strokeStyle='rgba(79,240,176,0.6)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
     ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
     ctx.setLineDash([]);
-    ctx.strokeStyle='rgba(126,184,255,0.7)';ctx.lineWidth=1.5;
+    ctx.strokeStyle='rgba(126,184,255,0.8)';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(toX(xMin),toY(r.slope*xMin+r.intercept));ctx.lineTo(toX(xMax),toY(r.slope*xMax+r.intercept));ctx.stroke();
     ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5;ctx.beginPath();
     for(let i=0;i<lf.length;i++){const x=toX(lf[i]),y=toY(lp[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
     ctx.stroke();
+    // mini legend
+    const lx=pad.l+pw+6;
+    ctx.font='9px monospace';ctx.textAlign='left';
+    ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(lx,pad.t+10);ctx.lineTo(lx+12,pad.t+10);ctx.stroke();
+    ctx.fillStyle='#8090a0';ctx.fillText('実測値',lx+14,pad.t+14);
+    ctx.strokeStyle='rgba(79,240,176,0.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(lx,pad.t+26);ctx.lineTo(lx+12,pad.t+26);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#8090a0';ctx.fillText('理想1/f',lx+14,pad.t+30);
+    ctx.strokeStyle='rgba(126,184,255,0.8)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(lx,pad.t+42);ctx.lineTo(lx+12,pad.t+42);ctx.stroke();
+    ctx.fillStyle='#8090a0';ctx.fillText('平均値',lx+14,pad.t+46);
   }
-  // url watermark
-  ctx.fillStyle='#3a4050';ctx.font='11px monospace';ctx.textAlign='center';
+  ctx.fillStyle='#3a4050';ctx.font='10px monospace';ctx.textAlign='center';
   ctx.fillText('anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html',W/2,H-10);
-  // download
   const link=document.createElement('a');
   link.download='1f_voice_result.png';
-  link.href=offscreen.toDataURL('image/png');
+  link.href=c.toDataURL('image/png');
   link.click();
 }
 
-// Tweet result
+// Tweet
 function tweetResult(){
   if(!lastResult)return;
   const r=lastResult;
-  const verdict=r.vClass==='good'?'1/fゆらぎあり！':r.vClass==='warn'?'やや単調':'ゆらぎが大きすぎる';
-  const text=`自分の声に1/fゆらぎがあるか測定してみた！\n\n結果: ${verdict}\n近似度: ${r.score}点\n傾き: ${r.slope.toFixed(2)}（理想値: -1.0）\n\nあなたの声にもある？👇\n${url}\n\n#声のゆらぎ診断`;
+  const verdict=r.vClass==='good'?'1/fゆらぎあり！✨':r.vClass==='warn'?'やや単調📊':'ゆらぎが大きすぎる🌊';
   const url='https://anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html';
-  const tweetUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
-  window.open(tweetUrl,'_blank');
+  const text=`自分の声に1/fゆらぎがあるか測定してみた！\n\n結果: ${verdict}\n近似度: ${r.score}点\n傾き: ${r.slope.toFixed(2)}（理想値: -1.0）\n\nあなたの声にもある？👇\n${url}\n\n#声のゆらぎ診断`;
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
 }
 
 function nextPow2(n){let p=1;while(p<n)p<<=1;return p;}
-
 function fftMagnitude(x){
   const N=x.length,re=Array.from(x),im=new Array(N).fill(0);
   let j=0;
@@ -534,7 +529,6 @@ function fftMagnitude(x){
   }
   return re.map((r,i)=>Math.sqrt(r*r+im[i]*im[i]));
 }
-
 function linReg(xs,ys){
   const n=xs.length,mx=xs.reduce((a,b)=>a+b,0)/n,my=ys.reduce((a,b)=>a+b,0)/n;
   let num=0,den=0;
