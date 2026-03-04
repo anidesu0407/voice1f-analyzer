@@ -6,7 +6,7 @@
 <title>1/f ゆらぎ 声分析器</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
-  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--text:#c8d0e0;--text-dim:#6a7080;--glow:0 0 20px rgba(79,240,176,0.3);}
+  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--text:#c8d0e0;--text-dim:#8a9ab0;--glow:0 0 20px rgba(79,240,176,0.3);}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;background-image:radial-gradient(ellipse at 20% 20%,rgba(79,240,176,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(126,184,255,0.04) 0%,transparent 60%);}
   header{text-align:center;margin-bottom:40px;}
@@ -420,7 +420,7 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   ctx.save();ctx.translate(10*devicePixelRatio,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('log(パワー)',0,0);ctx.restore();
   // right legend
   const lx=pad.l+pw+10*devicePixelRatio;
-  const fs=9*devicePixelRatio;
+  const fs=11*devicePixelRatio;
   ctx.font=`${fs}px monospace`;ctx.textAlign='left';
   const items=[
     {color:'#ff6b6b',dash:false,bold:false,label:'実測値'},
