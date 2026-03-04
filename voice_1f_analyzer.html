@@ -80,7 +80,7 @@
   .explain-lead{font-size:.9rem;line-height:1.9;color:var(--text);margin-bottom:16px;}
   .explain-lead strong{color:var(--accent);}
   .script-box{background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:.92rem;line-height:2.2;color:var(--text);}
-  .copy-btn-wrap{text-align:right;margin-top:12px;}
+
   /* スペクトルグラフ凡例を外に出す */
   .spec-legend{display:flex;gap:20px;justify-content:center;margin-top:10px;}
   .spec-legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);}
@@ -109,9 +109,6 @@
   <div class="card-title">練習用サンプル台本（約30秒）</div>
   <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px;">このテキストをそのまま読んで録音してみてください。</p>
   <div class="script-box" id="scriptText">祖父が遺したのは、古びた懐中時計だった。傷だらけで、針はとっくに止まっている。でも、蓋を開けると——裏側に、小さな文字で刻まれていた。「時間より大切なものを、生きろ」祖父が何を思ってこれを刻んだのか、今ならわかる気がした。</div>
-  <div class="copy-btn-wrap">
-    <button class="btn btn-secondary" id="copyBtn" onclick="copyScript()">📋 テキストをコピー</button>
-  </div>
 </div>
 
 <!-- Input -->
@@ -398,7 +395,7 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext('2d');ctx.fillStyle='#080a0e';ctx.fillRect(0,0,W,H);
   if(logFreqs.length<2)return;
-  const pad={l:52*devicePixelRatio,r:24*devicePixelRatio,t:16*devicePixelRatio,b:32*devicePixelRatio};
+  const pad={l:52*devicePixelRatio,r:72*devicePixelRatio,t:16*devicePixelRatio,b:32*devicePixelRatio};
   const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
   const xMin=logFreqs[0],xMax=logFreqs[logFreqs.length-1];
   const yMin=Math.min(...logPowers),yMax=Math.max(...logPowers);
@@ -410,24 +407,41 @@ function drawSpectrum(logFreqs,logPowers,slope,intercept){
   ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
   for(let i=0;i<=4;i++){const y=pad.t+(ph/4)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
   for(let i=0;i<=4;i++){const x=pad.l+(pw/4)*i;ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();}
-  // ideal 1/f dashed
+  // ideal 1/f — green dashed
   const cx=(xMin+xMax)/2,cy=(yLo+yHi)/2;
-  ctx.strokeStyle='rgba(79,240,176,0.6)';ctx.lineWidth=1.5*devicePixelRatio;
+  ctx.strokeStyle='rgba(79,240,176,0.7)';ctx.lineWidth=1.5*devicePixelRatio;
   ctx.setLineDash([6*devicePixelRatio,4*devicePixelRatio]);
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(cy+(cx-xMin)));ctx.lineTo(toX(xMax),toY(cy-(xMax-cx)));ctx.stroke();
   ctx.setLineDash([]);
-  // regression line
-  ctx.strokeStyle='rgba(126,184,255,0.8)';ctx.lineWidth=1.5*devicePixelRatio;
+  // regression line — blue bold solid
+  ctx.strokeStyle='rgba(126,184,255,0.9)';ctx.lineWidth=2.5*devicePixelRatio;
   ctx.beginPath();ctx.moveTo(toX(xMin),toY(slope*xMin+intercept));ctx.lineTo(toX(xMax),toY(slope*xMax+intercept));ctx.stroke();
-  // actual spectrum
-  ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5*devicePixelRatio;ctx.beginPath();
+  // actual spectrum — red thin
+  ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.2*devicePixelRatio;ctx.beginPath();
   for(let i=0;i<logFreqs.length;i++){const x=toX(logFreqs[i]),y=toY(logPowers[i]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
   ctx.stroke();
   // axis labels
   ctx.fillStyle='#5a6070';ctx.font=`${9*devicePixelRatio}px monospace`;
   ctx.textAlign='center';ctx.fillText('log(周波数)',pad.l+pw/2,H-4*devicePixelRatio);
-  ctx.textAlign='left';
   ctx.save();ctx.translate(10*devicePixelRatio,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('log(パワー)',0,0);ctx.restore();
+  // right-side legend
+  const lx=pad.l+pw+8*devicePixelRatio;
+  const fs=8.5*devicePixelRatio;
+  ctx.font=`${fs}px monospace`;ctx.textAlign='left';
+  const items=[
+    {color:'#ff6b6b',dash:false,bold:false,label:'実測値'},
+    {color:'rgba(79,240,176,0.8)',dash:true,bold:false,label:'理想1/f'},
+    {color:'rgba(126,184,255,0.9)',dash:false,bold:true,label:'回帰直線'},
+  ];
+  items.forEach((item,i)=>{
+    const y=pad.t+ph*0.2+i*(ph*0.28);
+    ctx.strokeStyle=item.color;
+    ctx.lineWidth=item.bold?2.5*devicePixelRatio:1.5*devicePixelRatio;
+    if(item.dash)ctx.setLineDash([4*devicePixelRatio,3*devicePixelRatio]);else ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(lx,y);ctx.lineTo(lx+14*devicePixelRatio,y);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#7a8898';ctx.fillText(item.label,lx+18*devicePixelRatio,y+3*devicePixelRatio);
+  });
 }
 
 // Save result as image
