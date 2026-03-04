@@ -507,7 +507,7 @@ function tweetResult(){
   if(!lastResult)return;
   const r=lastResult;
   const verdict=r.vClass==='good'?'1/fゆらぎあり！':r.vClass==='warn'?'やや単調':'ゆらぎが大きすぎる';
-  const text=`自分の声に1/fゆらぎがあるか測定してみた！\n\n結果: ${verdict}\n近似度: ${r.score}点\n傾き: ${r.slope.toFixed(2)}（理想値: -1.0）\n平均ピッチ: ${r.mean}Hz\n\nあなたの声にもある？👇\n${url}\n\n#声のゆらぎ診断`;
+  const text=`自分の声に1/fゆらぎがあるか測定してみた！\n\n結果: ${verdict}\n近似度: ${r.score}点\n傾き: ${r.slope.toFixed(2)}（理想値: -1.0）\n\nあなたの声にもある？👇\n${url}\n\n#声のゆらぎ診断`;
   const url='https://anidesu0407.github.io/voice1f-analyzer/voice_1f_analyzer.html';
   const tweetUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
   window.open(tweetUrl,'_blank');
