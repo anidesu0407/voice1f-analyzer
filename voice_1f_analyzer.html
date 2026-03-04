@@ -138,7 +138,7 @@
     </div>
   </div>
   <!-- Audio player -->
-  <audio id="audioPlayer" class="audio-player hidden" controls></audio>
+  <audio id="audioPlayer" class="audio-player hidden" controls volume="0.5"></audio>
 </div>
 
 <!-- Waveform -->
@@ -229,6 +229,7 @@ function loadFile(file){
   const player=document.getElementById('audioPlayer');
   const objUrl=URL.createObjectURL(file);
   player.src=objUrl;
+  player.volume=0.5;
   player.classList.remove('hidden');
   const reader=new FileReader();
   reader.onload=async ev=>{
@@ -256,6 +257,7 @@ async function startRecording(){
       // Audio player
       const player=document.getElementById('audioPlayer');
       player.src=URL.createObjectURL(blob);
+      player.volume=0.5;
       player.classList.remove('hidden');
       const arrayBuf=await blob.arrayBuffer();
       try{
