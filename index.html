@@ -1,0 +1,2395 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G4Y6J2GEF9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-G4Y6J2GEF9');
+</script>
+<title>ボイス診断・声質分析｜Voice Analyzer Pro</title>
+<meta name="description" content="ブラウザで声の倍音・安定性・クリアさを解析するボイス診断・声質分析ツール。録音または音声ファイルで簡単にチェック。">
+<meta property="og:title" content="ボイス診断・声質分析｜Voice Analyzer Pro">
+<meta property="og:description" content="ブラウザで声の倍音・安定性・クリアさを解析するボイス診断・声質分析ツール。録音または音声ファイルで簡単にチェック。">
+<meta property="og:image" content="https://anidesu0407.github.io/voice-analyzer-pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ボイス診断・声質分析｜Voice Analyzer Pro">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="canonical" href="https://anidesu0407.github.io/voice-analyzer-pro/">
+<meta property="og:url" content="https://anidesu0407.github.io/voice-analyzer-pro/">
+<meta property="og:site_name" content="Voice Analyzer Pro">
+<link rel="icon" href="favicon.png" type="image/png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Voice Analyzer Pro",
+  "url": "https://anidesu0407.github.io/voice-analyzer-pro/",
+  "applicationCategory": "AudioApplication",
+  "operatingSystem": "All",
+  "inLanguage": "ja",
+  "description": "ブラウザで声の倍音・安定性・クリアさを解析するボイス診断・声質分析ツール。録音または音声ファイルで簡単にチェック。"
+}
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
+  :root{--bg:#0a0c10;--panel:#111318;--border:#1e2330;--accent:#4ff0b0;--accent2:#ff6b6b;--accent3:#7eb8ff;--accent4:#ffd166;--accent5:#c084fc;--text:#c8d0e0;--text-dim:#8a9ab0;--glow:0 0 20px rgba(79,240,176,0.3);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;background-image:radial-gradient(ellipse at 20% 20%,rgba(79,240,176,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(126,184,255,0.04) 0%,transparent 60%);}
+  header{text-align:center;margin-bottom:40px;}
+  header h1{font-family:'Space Mono',monospace;font-size:clamp(1.2rem,4vw,2rem);color:var(--accent);letter-spacing:.1em;text-shadow:var(--glow);margin-bottom:8px;}
+  header p{color:var(--text-dim);font-size:.9rem;font-weight:300;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:720px;margin-bottom:20px;}
+  .card-title{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--accent3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:10px;}
+  .tab-row{display:flex;gap:8px;margin-bottom:20px;}
+  .tab-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:.75rem;cursor:pointer;transition:all .2s;}
+  .tab-btn.active{background:rgba(79,240,176,.1);border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
+  .prep-tips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .prep-tip{font-size:.72rem;color:var(--text-dim);border:1px solid var(--border);padding:4px 10px;border-radius:999px;background:#0c0f15;transition:all .2s ease;}
+  .prep-tip.ok{border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
+  .prep-tip.bad{border-color:var(--accent2);color:var(--accent2);}
+  .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .3s ease;}
+  .upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(79,240,176,.04);box-shadow:var(--glow);}
+  .upload-zone input{display:none;}
+  .upload-icon{font-size:2rem;margin-bottom:8px;display:block;opacity:.6;}
+  .upload-zone p{color:var(--text-dim);font-size:.88rem;line-height:1.7;}
+  .upload-zone strong{color:var(--accent);}
+  .upload-hint{margin-top:8px;font-size:.75rem;color:var(--text-dim);}
+  .mic-zone{text-align:center;padding:20px 20px 8px;}
+  .mic-btn{width:72px;height:72px;border-radius:50%;border:2px solid var(--accent);background:rgba(79,240,176,.08);color:var(--accent);font-size:1.8rem;cursor:pointer;transition:all .2s;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+  .mic-btn:hover{background:rgba(79,240,176,.18);box-shadow:var(--glow);}
+  .mic-btn.recording{background:rgba(255,107,107,.15);border-color:var(--accent2);color:var(--accent2);animation:pulse 1s ease-in-out infinite;}
+  .mic-btn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;}
+  .mic-btn:disabled:hover{background:rgba(79,240,176,.08);}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,.4);}50%{box-shadow:0 0 0 12px rgba(255,107,107,0);}}
+  .mic-status{font-size:.88rem;color:var(--text-dim);margin-bottom:6px;}
+  .mic-timer{font-family:'Space Mono',monospace;font-size:1.3rem;color:var(--accent2);display:none;}
+  .mic-timer.show{display:block;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.05em;transition:all .2s ease;}
+  .btn-primary{background:var(--accent);color:#0a0c10;font-weight:700;}
+  .btn-primary:hover{background:#6fffc8;box-shadow:var(--glow);transform:translateY(-1px);}
+  .btn-primary:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+  .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-dim);}
+  .btn-secondary:hover{border-color:var(--accent3);color:var(--accent3);}
+  .btn-tweet{background:#1d9bf0;color:#fff;font-weight:700;}
+  .btn-tweet:hover{background:#1a8cd8;transform:translateY(-1px);}
+  .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;}
+  .file-name{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .canvas-wrap{position:relative;width:100%;margin-bottom:12px;}
+  canvas{width:100%;border-radius:8px;background:#080a0e;display:block;}
+  .audio-player{width:100%;margin-top:12px;border-radius:8px;accent-color:var(--accent);}
+  .test-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;}
+  .test-label{font-size:.72rem;color:var(--text-dim);font-family:'Space Mono',monospace;}
+  .test-select{background:#0c0f15;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-family:'Space Mono',monospace;font-size:.72rem;}
+
+  /* 判定 */
+  .verdict{border-radius:12px;padding:18px 22px;display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+  .verdict.good{background:rgba(79,240,176,.08);border:1px solid rgba(79,240,176,.3);}
+  .verdict.warn{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.3);}
+  .verdict.bad{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);}
+  .verdict-icon{font-size:2rem;flex-shrink:0;}
+  .verdict-text h3{font-size:1rem;font-weight:700;margin-bottom:4px;}
+  .verdict-text p{font-size:.85rem;color:var(--text-dim);line-height:1.7;}
+
+  /* 撮り直し注意 */
+  .retake-box{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.35);border-radius:12px;padding:14px 16px;margin-bottom:18px;}
+  .retake-title{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+  .retake-text{font-size:.86rem;color:var(--text-dim);line-height:1.7;white-space:pre-line;}
+
+  /* スコアゲージ */
+  .score-gauge-wrap{margin:18px 0;}
+  .score-label-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-dim);margin-bottom:6px;font-family:'Space Mono',monospace;}
+  .score-track{height:8px;border-radius:4px;background:linear-gradient(to right,var(--accent2),var(--accent4),var(--accent));position:relative;}
+  .score-marker{position:absolute;top:-4px;width:16px;height:16px;border-radius:50%;background:white;box-shadow:0 0 8px rgba(255,255,255,.5);transform:translateX(-50%);transition:left .8s cubic-bezier(.34,1.56,.64,1);}
+  .quality-row{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px;}
+  .quality-chip{font-size:.72rem;font-family:'Space Mono',monospace;color:var(--text-dim);border:1px solid var(--border);padding:6px 10px;border-radius:999px;background:#0c0f15;transition:all .2s ease;}
+  .quality-chip.good{border-color:var(--accent);color:var(--accent);box-shadow:var(--glow);}
+  .quality-chip.warn{border-color:var(--accent4);color:var(--accent4);}
+  .quality-chip.bad{border-color:var(--accent2);color:var(--accent2);}
+
+  /* サブスコア 4項目 */
+  .sub-scores{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px;}
+  @media(max-width:500px){.sub-scores{grid-template-columns:1fr 1fr;}}
+  .sub-score-card{background:#080a0e;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+  .sub-score-label{font-size:.68rem;color:var(--text-dim);margin-bottom:5px;line-height:1.5;}
+  .sub-score-val{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;}
+  .sub-score-bar-wrap{height:3px;border-radius:2px;background:#1a1e28;margin-top:7px;overflow:hidden;}
+  .sub-score-bar{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.34,1.56,.64,1);}
+
+  /* レーダー+メトリクス横並び */
+  .radar-metrics-row{display:grid;grid-template-columns:240px 1fr;gap:16px;margin-bottom:20px;align-items:start;}
+  @media(max-width:560px){.radar-metrics-row{grid-template-columns:1fr;}}
+
+  /* メトリクス */
+  .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .metric{background:#080a0e;border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+  .metric-label{font-size:.7rem;color:var(--text-dim);letter-spacing:.04em;margin-bottom:4px;}
+  .metric-value{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;}
+  .metric-sub{font-size:.7rem;color:var(--text-dim);margin-top:3px;}
+  .good{color:var(--accent);} .warn{color:var(--accent4);} .bad{color:var(--accent2);}
+
+  /* 倍音バー */
+  .harmonic-chart-wrap{margin-bottom:8px;}
+  .harmonic-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:5px;}
+  .hbar-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--text-dim);width:48px;text-align:right;flex-shrink:0;}
+  .hbar-track{flex:1;height:9px;border-radius:5px;background:#1a1e28;overflow:hidden;}
+  .hbar-fill{height:100%;border-radius:5px;transition:width .6s cubic-bezier(.34,1.56,.64,1);}
+  .hbar-val{font-family:'Space Mono',monospace;font-size:.7rem;width:44px;text-align:left;flex-shrink:0;}
+
+  .loading{display:none;text-align:center;padding:28px;}
+  .loading.show{display:block;}
+  .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .hidden{display:none!important;}
+
+  .script-box{background:#080a0e;border:1px solid var(--border);border-radius:12px;padding:18px 22px;font-size:.92rem;line-height:2.3;color:var(--text);}
+  .howto{font-size:.85rem;color:var(--text);line-height:2.0;}
+  .howto li{margin-bottom:4px;list-style:none;padding-left:1.4em;position:relative;}
+  .howto li::before{content:'›';position:absolute;left:0;color:var(--accent);}
+  .guide-subtitle{margin-top:18px;margin-bottom:10px;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent3);letter-spacing:.12em;text-transform:uppercase;}
+  .voice-type-guide{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:560px){.voice-type-guide{grid-template-columns:1fr;}}
+  .voice-type-item{background:#0b0e14;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px;position:relative;overflow:hidden;}
+  .voice-type-item::before{content:'';position:absolute;inset:0;opacity:.06;background:var(--vt-color);pointer-events:none;}
+  .voice-type-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .voice-type-item-icon{font-size:1.1rem;filter:drop-shadow(0 0 6px var(--vt-color));}
+  .voice-type-item-name{font-family:'Space Mono',monospace;font-size:.9rem;font-weight:700;color:var(--vt-color);letter-spacing:.03em;}
+  .voice-type-item-tag{font-size:.6rem;font-family:'Space Mono',monospace;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:2px 6px;color:var(--text-dim);}
+  .voice-type-item-desc{font-size:.78rem;color:var(--text-dim);line-height:1.7;}
+  .share-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+
+  /* アドバイスボックス */
+  .advice-box{background:linear-gradient(135deg,#0f1f18,#0f1020);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:16px;}
+  .advice-title{font-size:.75rem;color:var(--accent3);margin-bottom:6px;font-family:'Space Mono',monospace;}
+  .advice-text{font-size:.88rem;color:var(--text-dim);line-height:1.8;white-space:pre-line;}
+  .metric-desc{font-size:.7rem;color:#8a97ad;margin-top:5px;line-height:1.5;border-top:1px solid #1a1e28;padding-top:5px;}
+  .metric-desc b{color:#b2bccd;}
+
+  /* キャラクター判定 */
+  .voice-type-box{border-radius:14px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden;}
+  .voice-type-box::before{content:'';position:absolute;inset:0;opacity:.06;background:var(--vt-color);pointer-events:none;}
+  .voice-type-header{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+  .voice-type-icon{font-size:2.2rem;flex-shrink:0;filter:drop-shadow(0 0 8px var(--vt-color));}
+  .voice-type-name{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--vt-color);letter-spacing:.05em;}
+  .voice-type-tag{display:inline-block;font-size:.68rem;font-family:'Space Mono',monospace;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:2px 8px;margin-left:8px;color:var(--text-dim);vertical-align:middle;}
+  .voice-type-desc{font-size:.88rem;color:var(--text-dim);line-height:1.8;}
+  .voice-type-traits{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .vt-trait{font-size:.7rem;font-family:'Space Mono',monospace;padding:3px 10px;border-radius:20px;border:1px solid;opacity:.85;}
+</style>
+</head>
+<body>
+<header>
+  <h1>ボイス診断・声質分析｜Voice Analyzer Pro</h1>
+  <p>ブラウザで声の倍音・安定性・クリアさを解析するボイス診断・声質分析ツール</p>
+</header>
+
+<!-- 台本 -->
+<div class="card">
+  <div class="card-title">練習用サンプル台本（約20秒）</div>
+  <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:14px;line-height:1.7;">ゆっくり読んでみてください。</p>
+  <div class="script-box">深夜、静かな図書館で、ページをめくる音だけが響いていた。古い本の匂いと、かすかなコーヒーの香り。ここにいると、時間が止まったような気がする。</div>
+</div>
+
+<!-- 入力 -->
+<div class="card">
+  <div class="card-title">声を解析する</div>
+  <div class="tab-row">
+    <button class="tab-btn active" id="tabFile" onclick="switchInputTab('file')">📁 ファイルをアップロード</button>
+    <button class="tab-btn" id="tabMic" onclick="switchInputTab('mic')">🎙️ マイクで録音</button>
+  </div>
+  <div class="prep-tips">
+    <span class="prep-tip" id="tipQuiet">静かな部屋</span>
+    <span class="prep-tip" id="tipDistance">距離10〜15cm</span>
+    <span class="prep-tip" id="tipDuration">5秒以上</span>
+    <span class="prep-tip" id="tipClip">クリップ注意</span>
+  </div>
+  <div id="fileMode">
+    <div class="upload-zone" id="dropZone">
+      <label for="fileInput" style="cursor:pointer;display:block;">
+        <span class="upload-icon">📂</span>
+        <p><strong>クリックまたはドラッグ＆ドロップ</strong><br>WAV・MP3・M4A・OGG・MP4(MOV) など　※5秒以上推奨</p>
+      </label>
+      <input type="file" id="fileInput" accept="audio/*,video/*">
+    </div>
+    <div class="upload-hint">スマホでファイル選択できない場合は、マイク録音（右のタブ）がおすすめです。</div>
+    <div class="controls">
+      <span class="file-name" id="fileName">ファイル未選択</span>
+      <button class="btn btn-primary" id="analyzeBtn" disabled>▶ 解析する</button>
+    </div>
+  </div>
+  <div id="micMode" class="hidden">
+    <div class="mic-zone">
+      <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎙️</button>
+      <div class="mic-status" id="micStatus">ボタンを押して録音開始</div>
+      <div class="mic-timer" id="micTimer">0:00</div>
+    </div>
+    <div class="controls" style="justify-content:center;">
+      <button class="btn btn-primary" id="micAnalyzeBtn" disabled>▶ 解析する</button>
+    </div>
+  </div>
+  <audio id="audioPlayer" class="audio-player hidden" controls></audio>
+  <div class="test-row">
+    <span class="test-label">テストトーン</span>
+    <select id="testFreq" class="test-select">
+      <option value="110">110 Hz</option>
+      <option value="220" selected>220 Hz</option>
+      <option value="440">440 Hz</option>
+    </select>
+    <select id="testDur" class="test-select">
+      <option value="3">3 秒</option>
+      <option value="5" selected>5 秒</option>
+      <option value="8">8 秒</option>
+    </select>
+    <button class="btn btn-secondary" id="testToneBtn">▶ 生成</button>
+  </div>
+</div>
+
+<!-- 波形 -->
+<div class="card hidden" id="waveCard">
+  <div class="card-title">波形 / スペクトル</div>
+  <div class="canvas-wrap"><canvas id="waveCanvas" height="70"></canvas></div>
+  <div class="canvas-wrap"><canvas id="specCanvas" height="70"></canvas></div>
+</div>
+
+<!-- ローディング -->
+<div class="card hidden" id="loadingCard">
+  <div class="loading show"><div class="spinner"></div><p style="color:var(--text-dim);font-size:.88rem;">声を解析中…</p></div>
+</div>
+
+<!-- 結果 -->
+<div class="card hidden" id="resultCard">
+  <div class="card-title">解析結果</div>
+
+  <div class="retake-box hidden" id="retakeBox">
+    <div class="retake-title">撮り直し推奨</div>
+    <div class="retake-text" id="retakeText"></div>
+  </div>
+
+  <!-- 判定 -->
+  <div id="verdictBox" class="verdict good">
+    <div class="verdict-icon" id="verdictIcon">✨</div>
+    <div class="verdict-text"><h3 id="verdictTitle">判定</h3><p id="verdictDesc">説明</p></div>
+  </div>
+
+  <!-- キャラクター判定 -->
+  <div class="voice-type-box" id="voiceTypeBox" style="--vt-color:#4ff0b0;border:1px solid rgba(79,240,176,.25);">
+    <div class="voice-type-header">
+      <span class="voice-type-icon" id="vtIcon">🎙️</span>
+      <div>
+        <div class="voice-type-name" id="vtName">−</div>
+        <span class="voice-type-tag" id="vtTag">−</span>
+      </div>
+    </div>
+    <div class="voice-type-desc" id="vtDesc">−</div>
+    <div class="voice-type-traits" id="vtTraits"></div>
+  </div>
+
+  <!-- スコアゲージ -->
+  <div class="score-gauge-wrap">
+    <div class="score-label-row"><span>総合スコア</span><span id="scoreLabel" style="color:var(--accent);font-size:1rem;">−</span></div>
+    <div class="score-track"><div class="score-marker" id="scoreMarker" style="left:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:5px;">
+      <span style="font-size:.65rem;color:var(--text-dim);">0</span>
+      <span style="font-size:.65rem;color:var(--text-dim);">50</span>
+      <span style="font-size:.65rem;color:var(--text-dim);">100</span>
+    </div>
+  </div>
+  <div class="quality-row" id="qualityRow">
+    <span class="quality-chip" id="qualityChip">測定信頼度: −</span>
+    <span class="quality-chip" id="noiseChip">環境ノイズ: −</span>
+    <span class="quality-chip" id="reproChip">再現性: −</span>
+  </div>
+
+  <!-- サブスコア 4項目 -->
+  <div class="sub-scores">
+    <div class="sub-score-card">
+      <div class="sub-score-label">🎻 倍音の豊かさ<br><span style="font-size:.62rem;color:#5a6070">倍音数×強さ × 40%</span></div>
+      <div class="sub-score-val good" id="subRich">−</div>
+      <div class="sub-score-bar-wrap"><div class="sub-score-bar" id="subRichBar" style="width:0%;background:var(--accent3)"></div></div>
+    </div>
+    <div class="sub-score-card">
+      <div class="sub-score-label">🌊 声のゆらぎ<br><span style="font-size:.62rem;color:#5a6070">× 25%</span></div>
+      <div class="sub-score-val good" id="subFlicker">−</div>
+      <div class="sub-score-bar-wrap"><div class="sub-score-bar" id="subFlickerBar" style="width:0%;background:var(--accent)"></div></div>
+    </div>
+    <div class="sub-score-card">
+      <div class="sub-score-label">🔬 声の安定性<br><span style="font-size:.62rem;color:#5a6070">Jitter+Shimmer × 25%</span></div>
+      <div class="sub-score-val good" id="subStability">−</div>
+      <div class="sub-score-bar-wrap"><div class="sub-score-bar" id="subStabilityBar" style="width:0%;background:var(--accent5)"></div></div>
+    </div>
+    <div class="sub-score-card">
+      <div class="sub-score-label">🎵 抑揚の豊かさ<br><span style="font-size:.62rem;color:#5a6070">× 10%</span></div>
+      <div class="sub-score-val good" id="subIntonation">−</div>
+      <div class="sub-score-bar-wrap"><div class="sub-score-bar" id="subIntonationBar" style="width:0%;background:var(--accent4)"></div></div>
+    </div>
+  </div>
+
+  <!-- レーダー + メトリクス -->
+  <div class="radar-metrics-row">
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--text-dim);margin-bottom:8px;">RADAR CHART</div>
+      <canvas id="radarCanvas" width="260" height="260" style="background:transparent;display:block;"></canvas>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--text-dim);margin-bottom:8px;">METRICS</div>
+      <div class="metrics-grid">
+        <div class="metric">
+          <div class="metric-label">基音（平均ピッチ）</div>
+          <div class="metric-value good" id="metPitch">−</div>
+          <div class="metric-sub" id="metPitchSub">Hz</div>
+          <div class="metric-desc">声の<b>高さ</b>の基準。男性は85〜165Hz、女性は165〜260Hzが目安。低いほど落ち着いた声になります。</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">倍音の検出数</div>
+          <div class="metric-value good" id="metHRatio">−</div>
+          <div class="metric-sub" id="metHRatioSub">11倍音中の検出数</div>
+          <div class="metric-desc">声の<b>深み・温かみ</b>の指標。多いほど倍音が豊かで「いい声」らしさが増します。強さも合わせて評価します。</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">1/fゆらぎ 傾き</div>
+          <div class="metric-value" id="metSlope">−</div>
+          <div class="metric-sub">理想値: −1.0 付近</div>
+          <div class="metric-desc">声の<b>心地よさ</b>の指標。−1.0に近いほど自然で聴き心地がよく、聴き手を引き込む声になります。</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Jitter（ピッチ変動）</div>
+          <div class="metric-value good" id="metJitter">−</div>
+          <div class="metric-sub">小さいほど安定</div>
+          <div class="metric-desc">声帯振動の<b>周期のブレ</b>。ブラウザ計測では1%以下なら安定。大きいと「声が揺れている」印象になります。</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Shimmer（音量変動）</div>
+          <div class="metric-value good" id="metShimmer">−</div>
+          <div class="metric-sub">小さいほど安定</div>
+          <div class="metric-desc">声の<b>音量のブレ</b>。ブラウザ計測では1dB以下なら安定。大きいと声にムラがある印象になります。</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">抑揚の幅</div>
+          <div class="metric-value good" id="metIntonation">−</div>
+          <div class="metric-sub">ピッチ変動幅（半音）</div>
+          <div class="metric-desc">話すときの<b>音の高低差</b>。3〜10半音が自然な話し声の目安。単調すぎず過剰でない幅が理想です。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 倍音スペクトル -->
+  <div class="card-title" style="margin-top:4px">倍音スペクトル</div>
+  <div class="canvas-wrap" style="margin-bottom:14px;"><canvas id="harmonicCanvas" height="260"></canvas></div>
+  <div class="harmonic-chart-wrap" id="harmonicChart"></div>
+
+  <!-- アドバイス -->
+  <div class="advice-box">
+    <div class="advice-title">💡 改善アドバイス</div>
+    <div class="advice-text" id="adviceText">−</div>
+  </div>
+
+  <!-- シェア -->
+  <div class="share-row">
+    <button class="btn btn-secondary" onclick="saveImage()">💾 画像で保存</button>
+    <button class="btn btn-tweet" onclick="tweetResult()">𝕏 結果をポスト</button>
+  </div>
+</div>
+
+<!-- ガイド -->
+<div class="card">
+  <div class="card-title">読み方ガイド</div>
+  <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;">
+    <span style="font-size:.85rem;"><span style="color:var(--accent);font-weight:700;">● 緑</span> = 良好</span>
+    <span style="font-size:.85rem;"><span style="color:var(--accent4);font-weight:700;">● 黄</span> = もう少し</span>
+    <span style="font-size:.85rem;"><span style="color:var(--accent2);font-weight:700;">● 赤</span> = 要改善</span>
+  </div>
+  <ul class="howto">
+    <li><strong style="color:var(--accent3)">倍音の数と強さ</strong>が最重要指標。11倍音中9個以上検出で高得点。男女・声域に関係なく評価します</li>
+    <li><strong style="color:var(--accent5)">Jitter・Shimmer</strong>はピッチと音量のブレ。ブラウザ計測では1%・1dB以下が安定の目安</li>
+    <li><strong style="color:var(--accent2)">1/fゆらぎ</strong>の傾きが −0.7〜−1.3 付近が「心地よい声」</li>
+    <li><strong style="color:var(--accent4)">抑揚の幅</strong>は3〜10半音が自然な話し声の目安</li>
+    <li>基音（Hz）は<strong style="color:var(--accent)">参考表示のみ</strong>でスコアには影響しません</li>
+    <li>録音は<strong style="color:var(--accent)">静かな環境</strong>でマイクとの距離10〜15cmが目安</li>
+  </ul>
+  <div class="guide-subtitle">キャラクター一覧</div>
+  <div class="voice-type-guide" id="voiceTypeGuide"></div>
+</div>
+
+<script>
+// ============================================================
+// 状態
+// ============================================================
+let audioBuffer=null,audioCtx=null,mediaRecorder=null,recordedChunks=[],timerInterval=null,recordSeconds=0;
+let lastResult=null;
+let prevSummary=null;
+let currentInputKey='';
+let currentObjectUrl=null;
+let recorderMimeType='';
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+function revokeAudioUrl(){
+  if(currentObjectUrl){
+    URL.revokeObjectURL(currentObjectUrl);
+    currentObjectUrl=null;
+  }
+}
+
+function setAudioSource(url){
+  const player=document.getElementById('audioPlayer');
+  revokeAudioUrl();
+  currentObjectUrl=url;
+  player.src=url;
+  player.volume=0.5;
+  player.classList.remove('hidden');
+}
+
+function clearAudioSource(){
+  const player=document.getElementById('audioPlayer');
+  player.pause();
+  player.removeAttribute('src');
+  player.load();
+  player.classList.add('hidden');
+  revokeAudioUrl();
+  audioBuffer=null;
+}
+
+function resetAnalysisUI(){
+  document.getElementById('waveCard').classList.add('hidden');
+  document.getElementById('resultCard').classList.add('hidden');
+  document.getElementById('loadingCard').classList.add('hidden');
+  document.getElementById('retakeBox').classList.add('hidden');
+  resetPrepTips();
+}
+
+function setTipState(id,ok){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.classList.remove('ok','bad');
+  if(ok===true) el.classList.add('ok');
+  if(ok===false) el.classList.add('bad');
+}
+
+function resetPrepTips(){
+  setTipState('tipQuiet',null);
+  setTipState('tipDistance',null);
+  setTipState('tipDuration',null);
+  setTipState('tipClip',null);
+}
+
+function updatePrepTips(result){
+  if(!result) return;
+  const quietOk=result.noiseRatio<0.30;
+  const durOk=result.durationSec>=5;
+  const clipOk=result.clipRatio<=0.005;
+  const distOk=!(result.rawPeak<0.05||result.clipRatio>0.005);
+  setTipState('tipQuiet',quietOk);
+  setTipState('tipDuration',durOk);
+  setTipState('tipClip',clipOk);
+  setTipState('tipDistance',distOk);
+}
+
+function makeSummary(r){
+  return {
+    inputKey:r.inputKey||'',
+    totalScore:r.totalScore,
+    meanPitch:r.meanPitch,
+    richScore:r.richScore,
+    stabilityScore:r.stabilityScore,
+    intonationScore:r.intonationScore
+  };
+}
+
+function calcRepro(r,prev){
+  if(!prev){
+    return {label:'−',cls:'warn',detail:'次回の計測から判定'};
+  }
+  if(prev.inputKey!==r.inputKey){
+    return {label:'−',cls:'warn',detail:'入力が変わったため比較なし'};
+  }
+  const scoreDiff=Math.abs(r.totalScore-prev.totalScore);
+  const pitchDiff=Math.abs(r.meanPitch-prev.meanPitch);
+  const richDiff=Math.abs(r.richScore-prev.richScore);
+  const stabDiff=Math.abs(r.stabilityScore-prev.stabilityScore);
+  let cls='bad',label='低';
+  if(scoreDiff<=5&&pitchDiff<=10&&richDiff<=10&&stabDiff<=10){cls='good';label='高';}
+  else if(scoreDiff<=12&&pitchDiff<=25&&richDiff<=20&&stabDiff<=20){cls='warn';label='中';}
+  return {label,cls,detail:`ΔS${scoreDiff} / ΔHz${Math.round(pitchDiff)}`};
+}
+
+function getSupportedMimeType(){
+  if(!window.MediaRecorder||!MediaRecorder.isTypeSupported) return '';
+  const types=[
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    'audio/ogg',
+    'audio/mp4',
+    'audio/aac'
+  ];
+  for(const t of types){
+    if(MediaRecorder.isTypeSupported(t)) return t;
+  }
+  return '';
+}
+
+function updateMicSupportUI(){
+  const micBtn=document.getElementById('micBtn');
+  const micStatus=document.getElementById('micStatus');
+  const micAnalyzeBtn=document.getElementById('micAnalyzeBtn');
+  const hasMedia=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
+  const hasRecorder=!!window.MediaRecorder;
+  const secure=window.isSecureContext;
+
+  if(!hasMedia){
+    micStatus.textContent='このブラウザではマイク録音に対応していません';
+    micBtn.disabled=true;
+    micAnalyzeBtn.disabled=true;
+    return;
+  }
+  if(!secure){
+    micStatus.textContent='マイク録音はHTTPSまたはlocalhostでのみ利用できます';
+    micBtn.disabled=true;
+    micAnalyzeBtn.disabled=true;
+    return;
+  }
+  if(!hasRecorder){
+    micStatus.textContent='このブラウザでは録音機能が利用できません';
+    micBtn.disabled=true;
+    micAnalyzeBtn.disabled=true;
+    return;
+  }
+  recorderMimeType=getSupportedMimeType();
+  micBtn.disabled=false;
+  if(!audioBuffer) micAnalyzeBtn.disabled=true;
+  if(!(mediaRecorder&&mediaRecorder.state==='recording')){
+    micStatus.textContent='ボタンを押して録音開始';
+  }
+}
+
+function stopRecording(silent){
+  if(mediaRecorder&&mediaRecorder.state==='recording'){
+    mediaRecorder.stop();
+    if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t=>t.stop());
+  }
+  clearInterval(timerInterval);
+  document.getElementById('micBtn').classList.remove('recording');
+  document.getElementById('micTimer').classList.remove('show');
+  if(!silent){
+    document.getElementById('micStatus').textContent='録音完了。解析してください。';
+  }
+}
+
+// ============================================================
+// タブ切り替え（入力）
+// ============================================================
+function switchInputTab(mode){
+  stopRecording(true);
+  document.getElementById('tabFile').classList.toggle('active',mode==='file');
+  document.getElementById('tabMic').classList.toggle('active',mode==='mic');
+  document.getElementById('fileMode').classList.toggle('hidden',mode!=='file');
+  document.getElementById('micMode').classList.toggle('hidden',mode!=='mic');
+  resetAnalysisUI();
+  clearAudioSource();
+  analyzeBtn.disabled=true;
+  document.getElementById('micAnalyzeBtn').disabled=true;
+  updateMicSupportUI();
+}
+
+// ============================================================
+// ファイル入力
+// ============================================================
+const fileInput=document.getElementById('fileInput');
+const analyzeBtn=document.getElementById('analyzeBtn');
+const dropZone=document.getElementById('dropZone');
+fileInput.addEventListener('change',e=>loadFile(e.target.files[0]));
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('drag-over');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('drag-over');if(e.dataTransfer.files[0])loadFile(e.dataTransfer.files[0]);});
+
+  async function loadFile(file){
+    if(!file) return;
+    const type=(file.type||'').toLowerCase();
+    const name=(file.name||'').toLowerCase();
+    const isAudio=type.startsWith('audio/');
+    const isVideo=type.startsWith('video/');
+    const hasExt=name.endsWith('.wav')||name.endsWith('.mp3')||name.endsWith('.m4a')||name.endsWith('.ogg')||name.endsWith('.mp4')||name.endsWith('.mov')||name.endsWith('.m4v');
+    if(!(isAudio||isVideo||hasExt)) return;
+    currentInputKey='file:'+(file.name||'unknown');
+    document.getElementById('fileName').textContent=file.name;
+    stopRecording(true);
+    resetAnalysisUI();
+    clearAudioSource();
+    try{
+      const ctx=getCtx();
+      const buf=await file.arrayBuffer();
+      const url=URL.createObjectURL(file);
+      setAudioSource(url);
+      audioBuffer=await ctx.decodeAudioData(buf);
+      analyzeBtn.disabled=false;
+      document.getElementById('micAnalyzeBtn').disabled=true;
+      drawWaveform();
+    }catch(e){
+      analyzeBtn.disabled=true;
+      document.getElementById('micAnalyzeBtn').disabled=true;
+      const msg=isVideo
+        ? '動画の解析に失敗しました。音声だけ(m4a/wav)かマイクで録音を試してね。'
+        : '音声ファイルの読み込みに失敗しました。音声だけ(m4a/wav)かマイクで録音を試してね。';
+      alert(msg);
+    }
+  }
+analyzeBtn.addEventListener('click',()=>{if(audioBuffer)analyzeAudio();});
+
+// ============================================================
+// マイク録音
+// ============================================================
+async function toggleRecording(){
+  if(document.getElementById('micBtn').disabled){
+    updateMicSupportUI();
+    return;
+  }
+  if(mediaRecorder&&mediaRecorder.state==='recording'){
+    stopRecording(false);
+    return;
+  }
+  try{
+    resetAnalysisUI();
+    clearAudioSource();
+    document.getElementById('micAnalyzeBtn').disabled=true;
+    const stream=await navigator.mediaDevices.getUserMedia({
+      audio:{
+        echoCancellation:false,
+        noiseSuppression:false,
+        autoGainControl:false
+      }
+    });
+    recordedChunks=[];recordSeconds=0;
+    const options=recorderMimeType?{mimeType:recorderMimeType}:undefined;
+    try{
+      mediaRecorder=options?new MediaRecorder(stream,options):new MediaRecorder(stream);
+    }catch(err){
+      mediaRecorder=new MediaRecorder(stream);
+      recorderMimeType=mediaRecorder.mimeType||recorderMimeType;
+    }
+    mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)recordedChunks.push(e.data);};
+    mediaRecorder.onstop=async()=>{
+      currentInputKey='mic';
+      const mimeType=mediaRecorder.mimeType||recorderMimeType||'audio/webm';
+      const blob=new Blob(recordedChunks,{type:mimeType});
+      const url=URL.createObjectURL(blob);
+      setAudioSource(url);
+      try{
+        const ab=await blob.arrayBuffer();
+        audioBuffer=await getCtx().decodeAudioData(ab);
+        document.getElementById('micAnalyzeBtn').disabled=false;
+        drawWaveform();
+      }catch(e){alert('録音データのデコードに失敗しました。別のブラウザまたはファイルアップロードをお試しください。');}
+    };
+    mediaRecorder.start();
+    document.getElementById('micBtn').classList.add('recording');
+    document.getElementById('micStatus').textContent='録音中… もう一度押すと停止';
+    document.getElementById('micTimer').classList.add('show');
+    timerInterval=setInterval(()=>{
+      recordSeconds++;
+      const m=Math.floor(recordSeconds/60),s=recordSeconds%60;
+      document.getElementById('micTimer').textContent=m+':'+(s<10?'0':'')+s;
+    },1000);
+  }catch(e){alert('マイクへのアクセスが許可されていません');}
+}
+document.getElementById('micAnalyzeBtn').addEventListener('click',()=>{if(audioBuffer)analyzeAudio();});
+updateMicSupportUI();
+const testToneBtn=document.getElementById('testToneBtn');
+if(testToneBtn){
+  testToneBtn.addEventListener('click',()=>{
+    const fEl=document.getElementById('testFreq');
+    const dEl=document.getElementById('testDur');
+    const freq=Number(fEl&&fEl.value)||220;
+    const dur=Number(dEl&&dEl.value)||5;
+    generateTestTone(freq,dur);
+  });
+}
+
+// ============================================================
+// 波形描画
+// ============================================================
+function drawWaveform(){
+  document.getElementById('waveCard').classList.remove('hidden');
+  const dpr=devicePixelRatio||1;
+  const wc=document.getElementById('waveCanvas');
+  const cssW=Math.max(1,wc.clientWidth||wc.offsetWidth||1);
+  const cssH=70;
+  const W=Math.max(1,Math.round(cssW*dpr)),H=Math.max(1,Math.round(cssH*dpr));
+  wc.width=W;wc.height=H;
+  wc.style.width=cssW+'px';
+  wc.style.height=cssH+'px'; // CSS表示サイズを固定してぼやけ・高さ崩れ防止
+  const wctx=wc.getContext('2d');wctx.fillStyle='#080a0e';wctx.fillRect(0,0,W,H);
+  const raw=audioBuffer.getChannelData(0);
+  const fadeLen=Math.floor(audioBuffer.sampleRate*0.2);
+  const data=new Float32Array(raw.length);
+  for(let i=0;i<raw.length;i++) data[i]=raw[i]*(i<fadeLen?i/fadeLen:1);
+  const step=Math.ceil(data.length/W);
+  wctx.strokeStyle='#4ff0b0';wctx.lineWidth=1;wctx.beginPath();
+  for(let i=0;i<W;i++){
+    let mn=1,mx=-1;
+    for(let j=0;j<step;j++){const v=data[i*step+j]||0;if(v<mn)mn=v;if(v>mx)mx=v;}
+    const y1=(1-mx)/2*H,y2=(1-mn)/2*H;
+    if(i===0)wctx.moveTo(i,y1);wctx.lineTo(i,y1);wctx.lineTo(i,y2);
+  }
+  wctx.stroke();
+  // スペクトル
+  const sc=document.getElementById('specCanvas');
+  sc.width=W;sc.height=H;
+  sc.style.width=cssW+'px';
+  sc.style.height=cssH+'px'; // CSS表示サイズを固定してぼやけ・高さ崩れ防止
+  const sctx=sc.getContext('2d');sctx.fillStyle='#080a0e';sctx.fillRect(0,0,W,H);
+  const Ns=nextPow2(Math.min(data.length,65536));
+  const useLens=Math.min(data.length,Ns);
+  if(useLens>=2){
+    const paddeds=new Float32Array(Ns);
+    for(let i=0;i<useLens;i++) paddeds[i]=data[i]*(0.5*(1-Math.cos(2*Math.PI*i/(useLens-1))));
+    const spec=fftMagnitude(paddeds);
+    const halfs=Math.floor(Ns/2);
+    let specMax=0;for(let b=1;b<halfs;b++)if(spec[b]>specMax)specMax=spec[b];
+    if(specMax>0){
+      sctx.strokeStyle='#7eb8ff';sctx.lineWidth=1;sctx.beginPath();
+      for(let i=0;i<W;i++){
+        const b=Math.max(1,Math.floor((i/W)*(halfs-1)));
+        const y=H-(spec[b]/specMax)*H*0.9;
+        i===0?sctx.moveTo(i,y):sctx.lineTo(i,y);
+      }
+      sctx.stroke();
+    }
+  }
+}
+
+function writeString(view,offset,str){
+  for(let i=0;i<str.length;i++) view.setUint8(offset+i,str.charCodeAt(i));
+}
+
+function bufferToWav(buffer){
+  const numCh=buffer.numberOfChannels;
+  const length=buffer.length;
+  const sampleRate=buffer.sampleRate;
+  const bytesPerSample=2;
+  const blockAlign=numCh*bytesPerSample;
+  const dataSize=length*blockAlign;
+  const buf=new ArrayBuffer(44+dataSize);
+  const view=new DataView(buf);
+  writeString(view,0,'RIFF');
+  view.setUint32(4,36+dataSize,true);
+  writeString(view,8,'WAVE');
+  writeString(view,12,'fmt ');
+  view.setUint32(16,16,true);
+  view.setUint16(20,1,true);
+  view.setUint16(22,numCh,true);
+  view.setUint32(24,sampleRate,true);
+  view.setUint32(28,sampleRate*blockAlign,true);
+  view.setUint16(32,blockAlign,true);
+  view.setUint16(34,16,true);
+  writeString(view,36,'data');
+  view.setUint32(40,dataSize,true);
+  let offset=44;
+  for(let i=0;i<length;i++){
+    for(let ch=0;ch<numCh;ch++){
+      let sample=buffer.getChannelData(ch)[i];
+      sample=Math.max(-1,Math.min(1,sample));
+      view.setInt16(offset,sample<0?sample*0x8000:sample*0x7FFF,true);
+      offset+=2;
+    }
+  }
+  return new Blob([view],{type:'audio/wav'});
+}
+
+function generateTestTone(freq,durationSec){
+  currentInputKey='test:'+freq+'Hz';
+  switchInputTab('file');
+  const ctx=getCtx();
+  const sr=ctx.sampleRate;
+  const length=Math.max(1,Math.floor(sr*durationSec));
+  const buf=ctx.createBuffer(1,length,sr);
+  const data=buf.getChannelData(0);
+  const fadeLen=Math.max(1,Math.floor(sr*0.02));
+  for(let i=0;i<length;i++){
+    let amp=0.22;
+    if(i<fadeLen) amp*=i/fadeLen;
+    else if(i>length-fadeLen) amp*=(length-i)/fadeLen;
+    data[i]=Math.sin(2*Math.PI*freq*i/sr)*amp;
+  }
+  audioBuffer=buf;
+  const blob=bufferToWav(buf);
+  const url=URL.createObjectURL(blob);
+  setAudioSource(url);
+  document.getElementById('fileName').textContent='TestTone '+freq+'Hz';
+  analyzeBtn.disabled=false;
+  document.getElementById('micAnalyzeBtn').disabled=true;
+  drawWaveform();
+}
+
+function harmonicEnergySumFor(baseHz,spectrum,binHz,half){
+  let sum=0;
+  const maxH=8;
+  for(let h=1;h<=maxH;h++){
+    const centerHz=baseHz*h;
+    if(centerHz>binHz*(half-1)) break;
+    const amp=bandEnergyAt(centerHz,spectrum,binHz,half,h);
+    sum+=amp*(1/h);
+  }
+  return sum;
+}
+
+function bandEnergyAt(centerHz,spectrum,binHz,half,hIndex=0){
+  const ratio=harmonicBandRatio(hIndex);
+  const halfWidth=Math.min(Math.max(centerHz*ratio,HARMONIC_BAND_MIN),HARMONIC_BAND_MAX);
+  const loHz=Math.max(20,centerHz-halfWidth),hiHz=centerHz+halfWidth;
+  const lo=Math.max(1,Math.floor(loHz/binHz)),hi=Math.min(Math.ceil(hiHz/binHz),half-1);
+  let energy=0;
+  if(lo<=hi) for(let b=lo;b<=hi;b++) energy+=spectrum[b]*spectrum[b];
+  // 帯域外の近傍からノイズ床を推定して差し引く
+  const bandBins=Math.max(1,hi-lo+1);
+  const n1s=Math.max(1,lo-bandBins),n1e=Math.max(0,lo-1);
+  const n2s=Math.min(half-1,hi+1),n2e=Math.min(half-1,hi+bandBins);
+  let noiseSum=0,noiseBins=0;
+  for(let b=n1s;b<=n1e;b++){noiseSum+=spectrum[b]||0;noiseBins++;}
+  for(let b=n2s;b<=n2e;b++){noiseSum+=spectrum[b]||0;noiseBins++;}
+  if(noiseBins>0){
+    const noiseMean=noiseSum/noiseBins;
+    const noisePow=(noiseMean*noiseMean)*bandBins;
+    energy=Math.max(0,energy-noisePow*NOISE_FLOOR_SUB);
+  }
+  return Math.sqrt(energy);
+}
+
+function bandNoiseMean(centerHz,spectrum,binHz,half,hIndex=0){
+  const ratio=harmonicBandRatio(hIndex);
+  const halfWidth=Math.min(Math.max(centerHz*ratio,HARMONIC_BAND_MIN),HARMONIC_BAND_MAX);
+  const loHz=Math.max(20,centerHz-halfWidth),hiHz=centerHz+halfWidth;
+  const lo=Math.max(1,Math.floor(loHz/binHz)),hi=Math.min(Math.ceil(hiHz/binHz),half-1);
+  const bandBins=Math.max(1,hi-lo+1);
+  const n1s=Math.max(1,lo-bandBins),n1e=Math.max(0,lo-1);
+  const n2s=Math.min(half-1,hi+1),n2e=Math.min(half-1,hi+bandBins);
+  let noiseSum=0,noiseBins=0;
+  for(let b=n1s;b<=n1e;b++){noiseSum+=spectrum[b]||0;noiseBins++;}
+  for(let b=n2s;b<=n2e;b++){noiseSum+=spectrum[b]||0;noiseBins++;}
+  return noiseBins>0 ? noiseSum/noiseBins : 0;
+}
+
+// 検出数用：旧ロジックに寄せたピーク判定（±10%固定）
+function bandPeakAt(centerHz,spectrum,binHz,half,ratio=0.10){
+  const loHz=Math.max(20,centerHz*(1-ratio)),hiHz=centerHz*(1+ratio);
+  const lo=Math.max(1,Math.floor(loHz/binHz)),hi=Math.min(Math.ceil(hiHz/binHz),half-1);
+  let peakVal=0;
+  if(lo<=hi) for(let b=lo;b<=hi;b++) if(spectrum[b]>peakVal) peakVal=spectrum[b];
+  return peakVal;
+}
+
+function findSpecPeakCandidate(spectrum,binHz,half){
+  const MIN=60,MAX=700;
+  const minBin=Math.max(1,Math.floor(MIN/binHz));
+  const maxBin=Math.min(Math.ceil(MAX/binHz),half-1);
+  let peakVal=0,peakBin=minBin;
+  let sum=0,count=0;
+  for(let b=minBin;b<=maxBin;b++){
+    const v=spectrum[b]||0;
+    sum+=v;count++;
+    if(v>peakVal){peakVal=v;peakBin=b;}
+  }
+  if(count===0) return null;
+  return {
+    hz:peakBin*binHz,
+    peakVal,
+    mean:sum/count
+  };
+}
+
+function pickOctavePitch(baseHz,spectrum,binHz,half,extraCandidate){
+  const MIN=60,MAX=700;
+  const candSet=new Set();
+  if(baseHz>=MIN&&baseHz<=MAX) candSet.add(baseHz);
+  if(baseHz*2<=MAX) candSet.add(baseHz*2);
+  if(baseHz/2>=MIN) candSet.add(baseHz/2);
+  if(extraCandidate&&extraCandidate>=MIN&&extraCandidate<=MAX) candSet.add(extraCandidate);
+  const candidates=[...candSet];
+  if(candidates.length===0) return baseHz;
+  const baseCandidate=(baseHz>=MIN&&baseHz<=MAX)?baseHz:candidates[0];
+  const baseScore=harmonicEnergySumFor(baseCandidate,spectrum,binHz,half)||1e-12;
+  const baseFund=bandEnergyAt(baseCandidate,spectrum,binHz,half,1)||1e-12;
+  let best=baseCandidate,bestScore=baseScore,bestFund=baseFund;
+  candidates.forEach(c=>{
+    const s=harmonicEnergySumFor(c,spectrum,binHz,half);
+    const f=bandEnergyAt(c,spectrum,binHz,half,1);
+    if(s>bestScore){bestScore=s;best=c;bestFund=f;}
+  });
+  if(best!==baseCandidate){
+    const scoreRatio=bestScore/baseScore;
+    const fundRatio=bestFund/baseFund;
+    if(scoreRatio>=1.6&&fundRatio>=1.5) return best;
+  }
+  return baseCandidate;
+}
+
+function correctPitchBySafe(p,safePitch){
+  if(!safePitch) return p;
+  const MIN=60,MAX=700;
+  const low=safePitch*0.65;
+  const high=safePitch*1.6;
+  if(p<low&&p*2>=MIN&&p*2<=MAX){
+    if(Math.abs(p*2-safePitch)<Math.abs(p-safePitch)*0.5) return p*2;
+  }
+  if(p>high&&p/2>=MIN&&p/2<=MAX){
+    if(Math.abs(p/2-safePitch)<Math.abs(p-safePitch)*0.5) return p/2;
+  }
+  return p;
+}
+
+// 抑揚算出用：外れ値だけ除外（純音テストの誤検出対策）
+function filterIntonationOutliers(pitches){
+  if(pitches.length<6) return pitches;
+  const logs=pitches.map(p=>Math.log2(p));
+  const sortedLogs=[...logs].sort((a,b)=>a-b);
+  const med=sortedLogs[Math.floor(sortedLogs.length/2)];
+  const absDevs=logs.map(v=>Math.abs(v-med)).sort((a,b)=>a-b);
+  const mad=absDevs[Math.floor(absDevs.length/2)]||0;
+  if(mad===0) return pitches;
+  const k=3.5;
+  const lo=med-k*mad,hi=med+k*mad;
+  return pitches.filter((p,i)=>logs[i]>=lo&&logs[i]<=hi);
+}
+
+function roughPitchEstimate(data,sampleRate){
+  const size=Math.min(4096,data.length);
+  if(size<1024) return 0;
+  const start=Math.max(0,Math.floor(data.length/2-size/2));
+  const frame=data.slice(start,start+size);
+  let sum=0;
+  for(let i=0;i<size;i++) sum+=frame[i];
+  const dc=sum/size;
+  let rms=0;
+  for(let i=0;i<size;i++){const v=frame[i]-dc;rms+=v*v;}
+  rms=Math.sqrt(rms/size);
+  if(rms<0.005) return 0;
+  const minLag=Math.max(1,Math.floor(sampleRate/700));
+  const maxLag=Math.floor(sampleRate/60);
+  let bestLag=minLag,bestVal=0;
+  const limit=size-maxLag;
+  for(let lag=minLag;lag<=maxLag;lag++){
+    let s=0;
+    for(let i=0;i<limit;i++){
+      const a=frame[i]-dc;
+      const b=frame[i+lag]-dc;
+      s+=a*b;
+    }
+    if(s>bestVal){bestVal=s;bestLag=lag;}
+  }
+  const pitch=sampleRate/bestLag;
+  if(pitch<60||pitch>700) return 0;
+  return pitch;
+}
+
+// ============================================================
+// メイン解析
+// ============================================================
+async function analyzeAudio(){
+  document.getElementById('loadingCard').classList.remove('hidden');
+  document.getElementById('resultCard').classList.add('hidden');
+  document.getElementById('retakeBox').classList.add('hidden');
+  await new Promise(resolve=>setTimeout(resolve,50));
+
+  const raw=audioBuffer.getChannelData(0);
+  const sampleRate=audioBuffer.sampleRate;
+  try {
+
+  // ============================================================
+  // 前処理①: DC offset除去 + 正規化 + ハイパスフィルタ(可変)
+  // ============================================================
+  const durationSec=raw.length/sampleRate;
+  const cleaned=new Float32Array(raw.length);
+  // DC除去
+  let dcSum=0;
+  let rawPeak=0;
+  let clipCount=0;
+  for(let i=0;i<raw.length;i++){
+    const v=raw[i];
+    dcSum+=v;
+    const av=Math.abs(v);
+    if(av>rawPeak) rawPeak=av;
+    if(av>=0.98) clipCount++;
+  }
+  if(rawPeak<0.01){
+    document.getElementById('loadingCard').classList.add('hidden');
+    alert('音量が小さすぎます。マイクに近づけて再録音してください。');
+    return;
+  }
+  const dcOffset=dcSum/raw.length;
+  for(let i=0;i<raw.length;i++) cleaned[i]=raw[i]-dcOffset;
+  // 正規化
+  let maxAmp=0;
+  for(let i=0;i<cleaned.length;i++) if(Math.abs(cleaned[i])>maxAmp) maxAmp=Math.abs(cleaned[i]);
+  if(maxAmp>0) for(let i=0;i<cleaned.length;i++) cleaned[i]/=maxAmp;
+  // ハイパスフィルタ（可変、1次IIRフィルタ）
+  const roughPitch=roughPitchEstimate(cleaned,sampleRate);
+  let hpCutoff=80;
+  if(roughPitch>=220) hpCutoff=120;
+  else if(roughPitch>=160) hpCutoff=100;
+  else if(roughPitch>=110) hpCutoff=90;
+  else if(roughPitch>0) hpCutoff=70;
+  const hpAlpha=1/(1+2*Math.PI*(hpCutoff/sampleRate));
+  const hpData=new Float32Array(cleaned.length);
+  hpData[0]=cleaned[0];
+  for(let i=1;i<cleaned.length;i++) hpData[i]=hpAlpha*(hpData[i-1]+cleaned[i]-cleaned[i-1]);
+
+  // ============================================================
+  // 前処理②: 安定区間抽出（中間20%〜80%）
+  // ============================================================
+  const stableStart=Math.floor(hpData.length*0.20);
+  const stableEnd=Math.floor(hpData.length*0.80);
+  const stableData=hpData.slice(stableStart,stableEnd);
+
+  // --- 1. FFT（安定区間を使用）---
+  const maxSamples=65536;
+  const useLen=Math.min(stableData.length,maxSamples);
+  if(useLen<8){
+    throw new Error('録音が短すぎます。3秒以上の発話でお試しください。');
+  }
+  const N=nextPow2(useLen);
+  const padded=new Float32Array(N);
+  for(let i=0;i<useLen;i++){
+    const w=0.5*(1-Math.cos(2*Math.PI*i/(useLen-1)));
+    padded[i]=stableData[i]*w;
+  }
+  const spectrum=fftMagnitude(padded);
+  const half=Math.floor(N/2);
+  const binHz=sampleRate/N;
+
+  // --- 2. フレームごと自己相関 + Voiced Frame Detection ---
+  const frameSize=4096,hopSize=512;
+  const minLag=Math.max(1,Math.floor(sampleRate/700)),maxLag=Math.floor(sampleRate/60);
+  let pitchValues=[];
+  const rmsValues=[];
+
+  // RMS全体の中央値を求めてエネルギー閾値を設定
+  const allRms=[];
+  for(let offset=0;offset+frameSize<stableData.length;offset+=hopSize){
+    const frame=stableData.slice(offset,offset+frameSize);
+    let rms=0;for(let i=0;i<frameSize;i++)rms+=frame[i]*frame[i];
+    allRms.push(Math.sqrt(rms/frameSize));
+  }
+  const sortedRms=[...allRms].sort((a,b)=>a-b);
+  const medianRms=(sortedRms.length>0?sortedRms[Math.floor(sortedRms.length/2)]:0)||0.01;
+  const noiseFloor=sortedRms.length>0?sortedRms[Math.floor(sortedRms.length*0.1)]:0;
+  const noiseRatio=medianRms>0?noiseFloor/medianRms:1;
+  if(medianRms<0.004){
+    document.getElementById('loadingCard').classList.add('hidden');
+    alert('音量が小さすぎます。マイク距離を近づけて再録音してください。');
+    return;
+  }
+  // 簡易キャリブレーション（最初の3秒で閾値を補正）
+  const calibSec=Math.min(3,stableData.length/sampleRate);
+  let calibMedian=medianRms;
+  if(calibSec>0.5){
+    const calibRms=[];
+    const calibSamples=Math.floor(calibSec*sampleRate);
+    for(let offset=0;offset+frameSize<calibSamples;offset+=hopSize){
+      const frame=stableData.slice(offset,offset+frameSize);
+      let rms=0;for(let i=0;i<frameSize;i++)rms+=frame[i]*frame[i];
+      calibRms.push(Math.sqrt(rms/frameSize));
+    }
+    if(calibRms.length>0){
+      const sortedCalib=[...calibRms].sort((a,b)=>a-b);
+      calibMedian=sortedCalib[Math.floor(sortedCalib.length/2)]||medianRms;
+    }
+  }
+  const energyThreshold=Math.max(medianRms*0.20,calibMedian*0.25,0.005);
+  const totalFrames=allRms.length;
+
+  for(let offset=0;offset+frameSize<stableData.length;offset+=hopSize){
+    const frame=stableData.slice(offset,offset+frameSize);
+    let rms=0;for(let i=0;i<frameSize;i++)rms+=frame[i]*frame[i];
+    rms=Math.sqrt(rms/frameSize);
+
+    // Voiced Frame Detection: エネルギーが低いフレームを除外
+    if(rms<energyThreshold) continue;
+
+    const ac=new Float32Array(maxLag+1);
+    for(let lag=minLag;lag<=maxLag;lag++){
+      let s=0;for(let i=0;i<frameSize-maxLag;i++)s+=frame[i]*frame[i+lag];ac[lag]=s;
+    }
+    let bestLag=minLag,bestVal=ac[minLag];
+    for(let lag=minLag+1;lag<=maxLag;lag++){if(ac[lag]>bestVal){bestVal=ac[lag];bestLag=lag;}}
+    // 近いピークがある場合は最小ラグを優先（純音でのサブハーモニック誤検出対策）
+    const nearThresh=bestVal*0.98;
+    for(let lag=minLag+1;lag<bestLag;lag++){
+      if(ac[lag]>=nearThresh && ac[lag]>ac[lag-1] && ac[lag]>=ac[lag+1]){
+        bestLag=lag;
+        break;
+      }
+    }
+
+    const candPitch=sampleRate/bestLag;
+
+    // Voiced Frame Detection: ピッチ範囲外を除外（60〜700Hz）
+    if(candPitch<60||candPitch>700) continue;
+
+    // 自己相関の信頼度チェック（正規化相関係数）
+    // 裏声は倍音が弱く信頼度が低く出るので閾値を非常に緩めに設定
+    let power=0;for(let i=0;i<frameSize;i++)power+=frame[i]*frame[i];
+    const normalizedAc=power>0?bestVal/power:0;
+    if(normalizedAc<0.05) continue;
+
+    pitchValues.push(candPitch);
+    rmsValues.push(rms);
+  }
+  const voicedRatio=totalFrames>0?pitchValues.length/totalFrames:0;
+  if(pitchValues.length<2){
+    document.getElementById('loadingCard').classList.add('hidden');
+    alert('有声区間が短すぎます。3秒以上の発話でお試しください。');return;
+  }
+
+  // 中央値ピッチ（一次推定）
+  const sortedP=[...pitchValues].sort((a,b)=>a-b);
+  const medianPitchRaw=sortedP[Math.floor(sortedP.length/2)];
+
+  // FFTスペクトル補正＋放物線補間
+  const sLo=Math.max(Math.round(80/binHz),Math.round(medianPitchRaw*0.85/binHz));
+  const sHi=Math.min(Math.round(medianPitchRaw*1.15/binHz),half-1);
+  let peakBin=Math.min(sLo,half-1),peakAmp=0;
+  if(sLo<=sHi){
+    for(let b=sLo;b<=sHi;b++){if(spectrum[b]>peakAmp){peakAmp=spectrum[b];peakBin=b;}}
+  }
+  const pp=peakBin>0?spectrum[peakBin-1]:0;
+  const pn=peakBin<half-1?spectrum[peakBin+1]:0;
+  const pd=pp-2*peakAmp+pn;
+  // 放物線補間量を±0.5binに制限して爆発を防ぐ
+  const interp=pd!==0?Math.max(-0.5,Math.min(0.5,0.5*(pp-pn)/(-pd))):0;
+  const refinedPitch=Math.max(0,(peakBin+interp)*binHz);
+  // refinedPitchが0または極端に小さい場合は中央値ピッチで代替
+  let safePitch = refinedPitch > 10 ? refinedPitch : medianPitchRaw;
+  const specPeak=findSpecPeakCandidate(spectrum,binHz,half);
+  let specCandidate=null;
+  let falsettoLike=false;
+  if(safePitch>0){
+    const fundE=bandEnergyAt(safePitch,spectrum,binHz,half,1);
+    const harm2=bandEnergyAt(safePitch*2,spectrum,binHz,half,2);
+    const fundNoise=bandNoiseMean(safePitch,spectrum,binHz,half,1);
+    const fundSnr=fundNoise>0?fundE/fundNoise:999;
+    falsettoLike=(harm2>fundE*1.8 && fundSnr<2.5);
+  }
+  if(specPeak&&specPeak.mean>0&&safePitch>0){
+    const semitoneDiff=12*Math.log2(specPeak.hz/safePitch);
+    const peakRatio=specPeak.peakVal/specPeak.mean;
+    const peakEnergy=bandEnergyAt(specPeak.hz,spectrum,binHz,half,0);
+    const baseEnergy=bandEnergyAt(safePitch,spectrum,binHz,half,1)+1e-12;
+    const isTestTone=currentInputKey&&currentInputKey.startsWith('test:');
+    if(isTestTone){
+      // テストトーンはスペクトル優先で補正
+      if(Math.abs(semitoneDiff)>=3&&peakRatio>=2) specCandidate=specPeak.hz;
+    } else if(falsettoLike){
+      if(Math.abs(semitoneDiff)>=7&&peakRatio>=3) specCandidate=specPeak.hz;
+    } else {
+      // 声でも明らかなサブハーモニック誤検出時のみ救済
+      if(Math.abs(semitoneDiff)>=9&&peakRatio>=6&&peakEnergy>baseEnergy*2.5){
+        specCandidate=specPeak.hz;
+      }
+    }
+  }
+  safePitch = pickOctavePitch(safePitch,spectrum,binHz,half,specCandidate);
+
+  // 明らかなオクターブ誤検出だけ補正（safePitch基準）
+  pitchValues=pitchValues.map(p=>correctPitchBySafe(p,safePitch));
+  const sortedPc=[...pitchValues].sort((a,b)=>a-b);
+  const medianPitch=sortedPc[Math.floor(sortedPc.length/2)];
+
+  // --- 3. 倍音エネルギー（帯域エネルギー合計、safePitch基準）---
+  const harmonicEnergies=[];
+  for(let h=1;h<=12;h++){
+    const centerHz=safePitch*h;
+    const amp=bandEnergyAt(centerHz,spectrum,binHz,half,h);
+    harmonicEnergies.push(amp);
+  }
+  const fundamentalEnergy=harmonicEnergies[0]||1;
+  const harmonicRatios=harmonicEnergies.map(e=>e/fundamentalEnergy);
+
+  // --- 4. 倍音スコア（数×強さの組み合わせ）---
+  // 基音の10%以上の強さで検出された倍音を「有効」とカウント（2〜12倍音の11個）
+  const harmonicPeakEnergies=[];
+  for(let h=1;h<=12;h++){
+    const centerHz=safePitch*h;
+    harmonicPeakEnergies.push(bandPeakAt(centerHz,spectrum,binHz,half,0.10));
+  }
+  const fundamentalPeak=harmonicPeakEnergies[0]||1;
+  const harmonicPeakRatios=harmonicPeakEnergies.map(e=>e/fundamentalPeak);
+  const detectedCount=harmonicPeakRatios.slice(1).filter(h=>h>=0.10).length;
+  // 倍音の強さ（2〜12倍音の全11個の平均比率で統一）
+  const richRatios=harmonicRatios.slice(1); // 11個
+  const harmonicRichness=richRatios.reduce((a,b)=>a+b,0)/richRatios.length;
+  // 倍音数スコア：9個以上→100点、7個→75点、5個→50点、3個→25点、2個以下→5点
+  const countScore=Math.max(0,Math.min(100,Math.round(
+    detectedCount>=9  ? 100 :
+    detectedCount>=7  ? 75+(detectedCount-7)/2*25 :
+    detectedCount>=5  ? 50+(detectedCount-5)/2*25 :
+    detectedCount>=3  ? 25+(detectedCount-3)/2*25 :
+    detectedCount>=1  ? 5+(detectedCount-1)/2*20 : 0
+  )));
+  // 倍音強さスコア：平均70%以上→100点、40%→70点、20%→40点、10%未満→0点
+  const strengthScore=Math.max(0,Math.min(100,Math.round(
+    harmonicRichness>=0.7 ? 100 :
+    harmonicRichness>=0.4 ? 70+(harmonicRichness-0.4)/0.3*30 :
+    harmonicRichness>=0.2 ? 40+(harmonicRichness-0.2)/0.2*30 :
+    harmonicRichness>=0.1 ? (harmonicRichness-0.1)/0.1*40 : 0
+  )));
+  // 総合倍音スコア：数60% + 強さ40%
+  const richScore=Math.round(countScore*0.6+strengthScore*0.4);
+
+  // --- 6. 1/fゆらぎ ---
+  const flickerPitches=pitchValues.filter(p=>p>medianPitch*0.8&&p<medianPitch*1.2);
+  let flickerSlope=0,flickerScore=50,flickerOk=false;
+  if(flickerPitches.length>=8){
+    const N2=nextPow2(flickerPitches.length);
+    const padded2=new Float32Array(N2);
+    for(let i=0;i<flickerPitches.length;i++) padded2[i]=flickerPitches[i]-medianPitch;
+    const spec2=fftMagnitude(padded2);
+    const half2=Math.floor(N2/2);
+    const logFreqs=[],logPowers=[];
+    for(let i=1;i<half2;i++){const p=spec2[i]*spec2[i];if(p>0){logFreqs.push(Math.log10(i));logPowers.push(Math.log10(p));}}
+    if(logFreqs.length>4){
+      const lr=linReg(logFreqs,logPowers);
+      flickerSlope=lr.slope;
+      const dist=Math.abs(flickerSlope+1.0);
+      flickerScore=Math.max(0,Math.min(100,Math.round(100-dist*70)));
+      flickerOk=true;
+    }
+  }
+
+  // --- 7. Jitter（ピッチ周期変動）---
+  const jitterDecimate=Math.max(1,Math.round(sampleRate*0.01/512));
+  const decimatedPitches=[];
+  for(let i=0;i<pitchValues.length;i+=jitterDecimate) decimatedPitches.push(pitchValues[i]);
+  const validPitches=decimatedPitches.filter(p=>p>medianPitch*0.8&&p<medianPitch*1.2);
+  const periods=validPitches.map(p=>sampleRate/p);
+  const periodMean=periods.length>0?periods.reduce((a,b)=>a+b,0)/periods.length:1;
+  let rapSum=0;
+  for(let i=1;i<periods.length-1;i++){
+    const avg3=(periods[i-1]+periods[i]+periods[i+1])/3;
+    rapSum+=Math.abs(periods[i]-avg3);
+  }
+  const jitter=periods.length>2?(rapSum/(periods.length-2))/periodMean*100:0;
+  // ブラウザ基準: 1%以下→100〜70点、2%→40点、3%以上→0点
+  const jitterScore=Math.max(0,Math.min(100,Math.round(
+    jitter<1.0 ? 100-jitter*30 :
+    jitter<2.0 ? 70-(jitter-1.0)*30 :
+    jitter<3.0 ? 40-(jitter-2.0)*40 : 0
+  )));
+
+  // --- 8. Shimmer（音量変動）---
+  const rmsMedian=rmsValues.length>0?rmsValues.slice().sort((a,b)=>a-b)[Math.floor(rmsValues.length/2)]:0.01;
+  const validRms=rmsValues.filter(v=>v>rmsMedian*0.2&&v<rmsMedian*3);
+  let shimmerDbSum=0;
+  for(let i=1;i<validRms.length;i++){
+    shimmerDbSum+=Math.abs(20*Math.log10(Math.max(1e-10,validRms[i])/Math.max(1e-10,validRms[i-1])));
+  }
+  const shimmer=validRms.length>1?shimmerDbSum/(validRms.length-1):0;
+  // ブラウザ基準: 1dB以下→100〜70点、2dB→40点、3dB以上→0点
+  const shimmerScore=Math.max(0,Math.min(100,Math.round(
+    shimmer<1.0 ? 100-shimmer*30 :
+    shimmer<2.0 ? 70-(shimmer-1.0)*30 :
+    shimmer<3.0 ? 40-(shimmer-2.0)*40 : 0
+  )));
+
+  // 安定性スコア（JitterとShimmerの平均）
+  const stabilityScore=Math.round((jitterScore+shimmerScore)/2);
+
+  // --- 9. 抑揚の幅（半音数）---
+  const baseIntonation=[...sortedPc].filter(p=>p>medianPitch*0.5&&p<medianPitch*2.0);
+  // 純音テストっぽい場合は、中央値近傍だけで抑揚を算出（誤検出の幅を抑制）
+  const toneLike=(detectedCount<=1&&harmonicRichness<0.08&&jitter<0.3&&shimmer<0.2);
+  let intonationPool=baseIntonation;
+  if(toneLike){
+    const tight=baseIntonation.filter(p=>{
+      const semis=12*Math.log2(p/medianPitch);
+      return Math.abs(semis)<=1.5;
+    });
+    if(tight.length>=2) intonationPool=tight;
+  }
+  const filteredIntonation=filterIntonationOutliers(intonationPool);
+  let trimmedP=[...filteredIntonation]
+    .slice(Math.floor(filteredIntonation.length*0.15),Math.floor(filteredIntonation.length*0.85));
+  if(toneLike){
+    // 純音時は抑揚を0に固定（テストトーンの誤検出対策）
+    trimmedP=[medianPitch,medianPitch];
+  }
+  const intonationOk=trimmedP.length>1&&trimmedP[0]>0;
+  const intonationSemitones=intonationOk
+    ? 12*Math.log2(trimmedP[trimmedP.length-1]/trimmedP[0]) : 0;
+  // 抑揚スコア：3〜10半音が理想、単調すぎ・過剰すぎはペナルティ
+  const intonationScore=intonationOk?Math.max(0,Math.min(100,Math.round(
+    intonationSemitones<1  ? intonationSemitones*20 :
+    intonationSemitones<=3 ? 20+(intonationSemitones-1)/2*80 :
+    intonationSemitones<=10? 80+(10-intonationSemitones)/7*20 :
+    intonationSemitones<=16? 80-(intonationSemitones-10)/6*40 :
+    40-(intonationSemitones-16)/8*40
+  ))):50;
+
+  // --- 10. スコア計算（4軸）---
+  // 男女判定：表示用のみ（スコアには影響しない）
+  // 裏声も考慮して300Hz以上を女性、または165〜300Hzは平均的な女性域
+  const isFemale = safePitch >= 165;
+  const genderLabel = safePitch >= 165 ? '女性' : '男性';
+
+  const wRich=0.40,wFlicker=0.25,wStab=0.25,wInt=0.10;
+  let weighted=richScore*wRich+stabilityScore*wStab;
+  let weightSum=wRich+wStab;
+  if(flickerOk){weighted+=flickerScore*wFlicker;weightSum+=wFlicker;}
+  if(intonationOk){weighted+=intonationScore*wInt;weightSum+=wInt;}
+  const totalScore=Math.round(weighted/weightSum);
+
+  const clipRatio=raw.length>0?clipCount/raw.length:0;
+  const qualityNotes=[];
+  if(durationSec<5.0) qualityNotes.push('録音が短めです（5秒以上推奨）');
+  if(rawPeak<0.05) qualityNotes.push('音量が小さく、解析精度が落ちやすいです（マイクに近づけて録音）');
+  if(clipRatio>0.005) qualityNotes.push('入力が大きすぎて歪んでいる可能性があります（少し離れて録音）');
+  if(voicedRatio<0.25) qualityNotes.push('有声区間が短い可能性があります（無音や息が多い場合は撮り直し推奨）');
+  if(noiseRatio>0.30) qualityNotes.push('環境ノイズが多い可能性があります（静かな部屋で録音）');
+  let qualityScore=100;
+  if(durationSec<3.0) qualityScore-=30;
+  else if(durationSec<5.0) qualityScore-=15;
+  if(rawPeak<0.02) qualityScore-=35;
+  else if(rawPeak<0.05) qualityScore-=20;
+  if(clipRatio>0.02) qualityScore-=40;
+  else if(clipRatio>0.005) qualityScore-=25;
+  if(voicedRatio<0.15) qualityScore-=40;
+  else if(voicedRatio<0.25) qualityScore-=25;
+  if(noiseRatio>0.40) qualityScore-=30;
+  else if(noiseRatio>0.30) qualityScore-=15;
+  qualityScore=Math.max(0,Math.min(100,Math.round(qualityScore)));
+  const qualityLabel=qualityScore>=80?'高':qualityScore>=60?'中':'低';
+  const noiseLabel=noiseRatio<0.12?'低':noiseRatio<0.30?'中':'高';
+
+  // --- 副倍音検出 ---
+  const subHarmonics=[];
+  for(let d=2;d<=4;d++){
+    const subHz=safePitch/d;
+    if(subHz<20)break;
+    const halfWidth=Math.min(Math.max(subHz*HARMONIC_BAND_RATIO,HARMONIC_BAND_MIN),HARMONIC_BAND_MAX);
+    const loHz=Math.max(20,subHz-halfWidth),hiHz=subHz+halfWidth;
+    const lo=Math.max(1,Math.floor(loHz/binHz)),hi=Math.min(Math.ceil(hiHz/binHz),half-1);
+    let energy=0;
+    for(let b=lo;b<=hi;b++) energy+=spectrum[b]*spectrum[b];
+    const amp=Math.sqrt(energy);
+    const ratio=amp/(harmonicEnergies[0]||1);
+    subHarmonics.push({hz:subHz,ratio,detected:ratio>0.05,divisor:d});
+  }
+
+  // --- 判定 ---
+  let vClass,vIcon,vTitle,vDesc;
+  if(totalScore>=79){vClass='good';vIcon='🎙️';vTitle='いい声認定！';vDesc='声の全指標が高水準です。'+genderLabel+'らしい豊かな倍音と安定感を持った、本格的ないい声の持ち主です。';}
+  else if(totalScore>=70){vClass='good';vIcon='✨';vTitle='かなりいい声！';vDesc='ほとんどの指標が優秀です。あと一歩でトップクラスの声になれます。';}
+  else if(totalScore>=55){vClass='warn';vIcon='🎶';vTitle='惜しい！もう一息';vDesc='声の素地はあります。弱い指標を重点的にトレーニングしましょう。';}
+  else if(totalScore>=35){vClass='warn';vIcon='📊';vTitle='伸びしろあり';vDesc='いくつかの指標で改善の余地があります。発声練習で大きく伸びる可能性があります。';}
+  else{vClass='bad';vIcon='🔈';vTitle='まだまだこれから';vDesc='録音環境の見直しと発声練習を始めましょう。継続的なトレーニングで改善できます。';}
+
+  // --- アドバイス生成（男女別）---
+  const advices=[];
+  if(richScore<60){
+    if(detectedCount<5) advices.push('倍音が少なめ：口腔内を広く保ち、口角を少し上げて発声すると倍音が豊かになります');
+    else advices.push('倍音の強さが弱め：ハミング練習で倍音を強化しましょう');
+  }
+  if(stabilityScore<60) advices.push('声の安定性：腹筋を使った安定した息の流れを意識し、声の揺れを減らしましょう');
+  if(intonationScore<50) advices.push('抑揚の調整：単調すぎる場合は感情を込めた読み上げ練習を。過剰な場合は落ち着いたトーンを意識して');
+  if(Math.abs(flickerSlope+1.0)>0.4) advices.push('ゆらぎの調整：単調すぎず、過剰に揺れすぎない自然な抑揚を意識してみましょう');
+  if(advices.length===0) advices.push('全指標が良好です！現状を維持しながら、さらなる表現の幅を広げていきましょう');
+  document.getElementById('adviceText').textContent=advices.join('。\n');
+
+  // --- キャラクター判定 ---
+  const voiceType=detectVoiceType({safePitch,isFemale,richScore,detectedCount,harmonicRichness,stabilityScore,jitter,shimmer,intonationScore,intonationSemitones,totalScore});
+
+  // --- 結果保存 ---
+  lastResult={
+    inputKey:currentInputKey,
+    totalScore,richScore,countScore,strengthScore,flickerScore,stabilityScore,intonationScore,
+    flickerSlope,meanPitch:safePitch,harmonicRatios,harmonicPeakRatios,harmonicRichness,detectedCount,
+    jitter,shimmer,intonationSemitones,
+    isFemale,genderLabel,voiceType,
+    vClass,vTitle,vIcon,vDesc,
+    frames:pitchValues.length,spectrum,half,binHz,sampleRate,subHarmonics,
+    qualityNotes,qualityScore,qualityLabel,noiseLabel,noiseRatio,voicedRatio,durationSec,
+    rawPeak,clipRatio
+  };
+
+  document.getElementById('loadingCard').classList.add('hidden');
+  displayResults(lastResult);
+  } catch(err) {
+    document.getElementById('loadingCard').classList.add('hidden');
+    alert('解析中にエラーが発生しました。録音をやり直してください。\n'+err.message);
+    console.error(err);
+  }
+}
+
+// ============================================================
+// 結果表示
+// ============================================================
+function displayResults(r){
+  const isTestTone=currentInputKey&&currentInputKey.startsWith('test:');
+  const retakeBox=document.getElementById('retakeBox');
+  const retakeText=document.getElementById('retakeText');
+  if(r.qualityNotes&&r.qualityNotes.length){
+    retakeText.textContent=r.qualityNotes.join('。\n')+'。';
+    retakeBox.classList.remove('hidden');
+  }else{
+    retakeBox.classList.add('hidden');
+  }
+  updatePrepTips(r);
+  // 判定
+  document.getElementById('verdictBox').className='verdict '+r.vClass;
+  document.getElementById('verdictIcon').textContent=r.vIcon;
+  document.getElementById('verdictTitle').textContent=r.vTitle;
+  document.getElementById('verdictDesc').textContent=r.totalScore+'点 — '+(r.vDesc||'');
+
+  // スコアゲージ
+  document.getElementById('scoreLabel').textContent=r.totalScore+'点';
+  setTimeout(()=>document.getElementById('scoreMarker').style.left=r.totalScore+'%',100);
+
+  // 測定信頼度・環境ノイズ・再現性
+  const qChip=document.getElementById('qualityChip');
+  const nChip=document.getElementById('noiseChip');
+  const rChip=document.getElementById('reproChip');
+  if(qChip){
+    const qCls=r.qualityLabel==='高'?'good':r.qualityLabel==='中'?'warn':'bad';
+    qChip.className='quality-chip '+qCls;
+    qChip.textContent='測定信頼度: '+r.qualityLabel+' ('+r.qualityScore+')';
+    qChip.title='品質スコア '+r.qualityScore+' / 録音長 '+r.durationSec.toFixed(1)+'s';
+  }
+  if(nChip){
+    const nCls=r.noiseLabel==='低'?'good':r.noiseLabel==='中'?'warn':'bad';
+    nChip.className='quality-chip '+nCls;
+    nChip.textContent='環境ノイズ: '+r.noiseLabel+' ('+Math.round(r.noiseRatio*100)+'%)';
+    nChip.title='noiseRatio '+r.noiseRatio.toFixed(2);
+  }
+  if(rChip){
+    const repro=calcRepro(r,prevSummary);
+    rChip.className='quality-chip '+repro.cls;
+    rChip.textContent='再現性: '+repro.label;
+    rChip.title=repro.detail||'';
+  }
+
+  const cc=v=>v>=70?'good':v>=40?'warn':'bad';
+  const flickerCC=s=>{const d=Math.abs(s+1.0);return d<=0.2?'good':d<=0.4?'warn':'bad';};
+
+  // サブスコア（4軸）
+  const subs=[
+    ['Rich',      r.richScore,      'var(--accent3)', cc],
+    ['Flicker',   r.flickerScore,   null,             ()=>flickerCC(r.flickerSlope)],
+    ['Stability', r.stabilityScore, 'var(--accent5)', cc],
+    ['Intonation',r.intonationScore,'var(--accent4)', cc],
+  ];
+  subs.forEach(([k,score,color,fn])=>{
+    const cls=fn(score); // flickerのfnはscoreを無視してslopeを使う
+    const el=document.getElementById('sub'+k);
+    if(!el)return; // 存在チェック
+    el.textContent=score+'点';el.className='sub-score-val '+cls;
+    const bar=document.getElementById('sub'+k+'Bar');
+    if(!bar)return;
+    bar.style.width=score+'%';
+    bar.style.background=
+      color?(cls==='good'?color:cls==='warn'?'var(--accent4)':'var(--accent2)')
+           :(cls==='good'?'var(--accent)':cls==='warn'?'var(--accent4)':'var(--accent2)');
+  });
+
+  // メトリクス
+  const pitch=r.meanPitch;
+  const genderBadge = r.isFemale ? '👩 女性基準' : '👨 男性基準';
+  let pitchComment='';
+  if(r.isFemale){
+    if(pitch<210)       pitchComment='女性・低め';
+    else if(pitch<260)  pitchComment='女性・平均的';
+    else if(pitch<320)  pitchComment='女性・高め';
+    else                pitchComment='女性・かなり高め';
+  } else {
+    if(pitch<85)  pitchComment='男性・極めて低い';
+    else if(pitch<110) pitchComment='男性・低め';
+    else if(pitch<150) pitchComment='男性・平均的';
+    else if(pitch<165) pitchComment='男性・やや高め';
+    else pitchComment='男性・高め';
+  }
+  document.getElementById('metPitch').textContent=Math.round(r.meanPitch)+' Hz';
+  document.getElementById('metPitch').className='metric-value good'; // 基音は参考表示のみ・色固定
+  document.getElementById('metPitchSub').textContent=genderBadge+' — '+pitchComment;
+  document.getElementById('metHRatio').textContent=r.detectedCount+' / 11';
+  document.getElementById('metHRatio').className='metric-value '+cc(r.richScore);
+  document.getElementById('metHRatioSub').textContent='強さ: '+(r.harmonicRichness*100).toFixed(1)+'%　検出数: '+r.detectedCount+'/11倍音';
+  document.getElementById('metSlope').textContent=r.flickerSlope.toFixed(2);
+  document.getElementById('metSlope').className='metric-value '+flickerCC(r.flickerSlope);
+  // Jitter: ブラウザ基準 1%以下→緑、2%以下→黄、それ以上→赤
+  document.getElementById('metJitter').textContent=r.jitter.toFixed(3)+'%';
+  document.getElementById('metJitter').className='metric-value '+(r.jitter<1.0?'good':r.jitter<2.0?'warn':'bad');
+  // Shimmer: ブラウザ基準 1dB以下→緑、2dB以下→黄、それ以上→赤
+  document.getElementById('metShimmer').textContent=r.shimmer.toFixed(2)+' dB';
+  document.getElementById('metShimmer').className='metric-value '+(r.shimmer<1.0?'good':r.shimmer<2.0?'warn':'bad');
+  document.getElementById('metIntonation').textContent=r.intonationSemitones.toFixed(1)+' st';
+  document.getElementById('metIntonation').className='metric-value '+(r.intonationSemitones>=3&&r.intonationSemitones<=10?'good':r.intonationSemitones>=1?'warn':'bad');
+
+  // レーダーチャート（テストトーン時は0固定で表示を無効化）
+  const radarR=isTestTone?{...r,richScore:0,flickerScore:0,stabilityScore:0,intonationScore:0}:r;
+  requestAnimationFrame(()=>drawRadar(radarR));
+
+  // キャラクター判定
+  if(r.voiceType) renderVoiceType(r.voiceType);
+
+  // 倍音バー
+  buildHarmonicBars(r.harmonicRatios,r.harmonicPeakRatios);
+
+  // 倍音スペクトル
+  requestAnimationFrame(()=>drawHarmonicCanvas(r));
+
+  document.getElementById('resultCard').classList.remove('hidden');
+  document.getElementById('resultCard').scrollIntoView({behavior:'smooth'});
+  prevSummary=makeSummary(r);
+}
+
+// ============================================================
+// レーダーチャート
+// ============================================================
+function drawRadar(r){
+  const canvas=document.getElementById('radarCanvas');
+  const dpr=devicePixelRatio||1;
+  const parent=canvas.parentElement;
+  const cssSize=Math.max(160,Math.min(parent?parent.clientWidth:260,260));
+  canvas.style.width=cssSize+'px';
+  canvas.style.height=cssSize+'px';
+  const SIZE=cssSize*dpr;
+  canvas.width=SIZE;canvas.height=SIZE;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,SIZE,SIZE);
+  const cx=SIZE/2,cy=SIZE/2,maxR=SIZE*0.32;// 少し小さくしてラベル余白確保
+  const labels=['倍音','ゆらぎ','安定性','抑揚'];
+  const scores=[r.richScore,r.flickerScore,r.stabilityScore,r.intonationScore];
+  const n=4;
+  const angle=i=>-Math.PI/2+(2*Math.PI/n)*i;
+
+  // グリッド
+  [0.25,0.5,0.75,1.0].forEach(ratio=>{
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=angle(i);
+      const x=cx+Math.cos(a)*maxR*ratio;
+      const y=cy+Math.sin(a)*maxR*ratio;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=ratio===1?'#2a3040':'#1e2330';ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // スポーク
+  for(let i=0;i<n;i++){
+    const a=angle(i);
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*maxR,cy+Math.sin(a)*maxR);
+    ctx.strokeStyle='#1e2330';ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // データ
+  ctx.beginPath();
+  scores.forEach((s,i)=>{
+    const a=angle(i);
+    const r2=(s/100)*maxR;
+    const x=cx+Math.cos(a)*r2,y=cy+Math.sin(a)*r2;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(79,240,176,0.15)';ctx.fill();
+  ctx.strokeStyle='rgba(79,240,176,0.8)';ctx.lineWidth=2;ctx.stroke();
+
+  // 点
+  scores.forEach((s,i)=>{
+    const a=angle(i);
+    const r2=(s/100)*maxR;
+    ctx.beginPath();ctx.arc(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2,3*dpr,0,Math.PI*2);
+    ctx.fillStyle='#4ff0b0';ctx.fill();
+  });
+
+  // ラベル＋スコア（同じ位置に2行で表示、被りなし）
+  labels.forEach((lbl,i)=>{
+    const a=angle(i);
+    const labelColors=['#4ff0b0','#7eb8ff','#ffd166','#c084fc'];
+    const r2=maxR+20*dpr;
+    const x=cx+Math.cos(a)*r2,y=cy+Math.sin(a)*r2;
+    const isRight=Math.cos(a)>0.1,isLeft=Math.cos(a)<-0.1;
+    const isDown=Math.sin(a)>0.1,isUp=Math.sin(a)<-0.1;
+    ctx.textAlign=isRight?'left':isLeft?'right':'center';
+
+    // ラベル行
+    ctx.font=`bold ${9*dpr}px monospace`;
+    ctx.fillStyle=labelColors[i];
+    if(isDown){
+      ctx.textBaseline='top';
+      ctx.fillText(lbl,x,y);
+      ctx.font=`${8*dpr}px monospace`;
+      ctx.fillStyle='rgba(200,208,224,0.5)';
+      ctx.fillText(scores[i]+'pt',x,y+10*dpr);
+    } else if(isUp){
+      ctx.textBaseline='bottom';
+      ctx.fillText(lbl,x,y);
+      ctx.font=`${8*dpr}px monospace`;
+      ctx.fillStyle='rgba(200,208,224,0.5)';
+      ctx.fillText(scores[i]+'pt',x,y-2*dpr);
+    } else {
+      ctx.textBaseline='bottom';
+      ctx.fillText(lbl,x,y);
+      ctx.font=`${8*dpr}px monospace`;
+      ctx.fillStyle='rgba(200,208,224,0.5)';
+      ctx.fillText(scores[i]+'pt',x,y+9*dpr);
+    }
+  });
+}
+
+// ============================================================
+// 倍音バー
+// ============================================================
+const HARMONIC_COLORS=['#4ff0b0','#7eb8ff','#ffd166','#ff6b6b','#c084fc','#4ff0b0','#7eb8ff','#ffd166','#ff6b6b','#c084fc','#4ff0b0','#7eb8ff'];
+const HARMONIC_BAND_RATIO=0.12;
+const HARMONIC_BAND_RATIO_LOW=0.14; // 2〜4次は広めに拾う
+const HARMONIC_BAND_MIN=20;
+const HARMONIC_BAND_MAX=120;
+const NOISE_FLOOR_SUB=0.7; // ノイズ床の引き過ぎを防ぐ係数
+function harmonicBandRatio(hIndex){
+  return (hIndex>=2&&hIndex<=4)?HARMONIC_BAND_RATIO_LOW:HARMONIC_BAND_RATIO;
+}
+function getHarmonicBand(centerHz,hIndex=0){
+  const ratio=harmonicBandRatio(hIndex);
+  const halfWidth=Math.min(Math.max(centerHz*ratio,HARMONIC_BAND_MIN),HARMONIC_BAND_MAX);
+  return {loHz:centerHz-halfWidth,hiHz:centerHz+halfWidth};
+}
+function buildHarmonicBars(ratios,peakRatios){
+  const hasPeak=Array.isArray(peakRatios)&&peakRatios.length===ratios.length;
+  const displayRatios=ratios.map((r,i)=>r>0?r:(hasPeak?(peakRatios[i]||0):0));
+  const maxRatio=Math.max(...displayRatios,0.01);
+  const chart=document.getElementById('harmonicChart');
+  chart.innerHTML='';
+  ratios.forEach((r,h)=>{
+    const disp=displayRatios[h]||0;
+    const pct=Math.min(100,(disp/maxRatio)*100);
+    const dbVal=disp>0?Math.max(-40,20*Math.log10(disp)).toFixed(1):'-∞';
+    const row=document.createElement('div');
+    row.className='harmonic-bar-row';
+    row.innerHTML=`<span class="hbar-label">${h===0?'基音':'×'+(h+1)}</span>
+      <div class="hbar-track"><div class="hbar-fill" style="width:${pct}%;background:${HARMONIC_COLORS[h]}"></div></div>
+      <span class="hbar-val" style="color:${HARMONIC_COLORS[h]}">${dbVal} dB</span>`;
+    chart.appendChild(row);
+  });
+}
+
+// ============================================================
+// 倍音スペクトル Canvas
+// ============================================================
+function drawHarmonicCanvas(r){
+  const canvas=document.getElementById('harmonicCanvas');
+  const dpr=devicePixelRatio||1;
+  const cssW=Math.max(1,canvas.clientWidth||canvas.offsetWidth||1);
+  const cssH=260;
+  const W=Math.max(1,Math.round(cssW*dpr));
+  const H=Math.max(1,Math.round(cssH*dpr));
+  canvas.width=W;canvas.height=H;
+  canvas.style.width=cssW+'px';
+  canvas.style.height=cssH+'px'; // CSS表示サイズを固定してぼやけ防止
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#080a0e';ctx.fillRect(0,0,W,H);
+  const pad={l:40*dpr,r:12*dpr,t:26*dpr,b:32*dpr};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  if(pw<=0||ph<=0)return;
+  const minFreqShow=30,maxFreqShow=Math.min(r.meanPitch*13,8000);
+  const minBin=Math.max(1,Math.floor(minFreqShow/r.binHz));
+  const maxBin=Math.min(Math.ceil(maxFreqShow/r.binHz),r.half-1);
+  const freqRange=maxFreqShow-minFreqShow;
+  if(freqRange<=0)return; // ガード：表示範囲がゼロなら描画スキップ
+  let specMax=0;for(let b=minBin;b<=maxBin;b++)if(r.spectrum[b]>specMax)specMax=r.spectrum[b];
+  if(specMax===0)return;
+  const toX=freq=>pad.l+((freq-minFreqShow)/freqRange)*pw;
+  ctx.strokeStyle='rgba(30,35,48,0.8)';ctx.lineWidth=1;
+  for(let i=1;i<=3;i++){const y=pad.t+ph/4*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();}
+  let tickStep=100;if(maxFreqShow>3000)tickStep=500;if(maxFreqShow>6000)tickStep=1000;
+  ctx.fillStyle='#3a4050';ctx.font=`${8*dpr}px monospace`;ctx.textAlign='left';
+  ctx.fillText('30Hz',pad.l,pad.t+ph+12*dpr);
+  const freqTicks=[];
+  for(let f=tickStep;f<maxFreqShow;f+=tickStep){if(f>=minFreqShow)freqTicks.push(f);}
+  ctx.strokeStyle='rgba(30,35,48,0.6)';ctx.lineWidth=1;
+  freqTicks.forEach(f=>{
+    const x=toX(f);ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();
+    ctx.fillStyle='#3a4050';ctx.font=`${8*dpr}px monospace`;ctx.textAlign='center';
+    ctx.fillText(f>=1000?(f/1000).toFixed(f%1000===0?0:1)+'k':f+'',x,pad.t+ph+12*dpr);
+  });
+  ctx.beginPath();ctx.strokeStyle='rgba(79,240,176,0.5)';ctx.lineWidth=1.2*dpr;
+  let first=true;
+  for(let b=minBin;b<=maxBin;b++){
+    const freq=b*r.binHz,x=toX(freq),y=pad.t+ph-(r.spectrum[b]/specMax)*ph*0.95;
+    if(first){ctx.moveTo(x,y);first=false;}else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // 塗りつぶしは別パス
+  ctx.beginPath();
+  first=true;
+  for(let b=minBin;b<=maxBin;b++){
+    const freq=b*r.binHz,x=toX(freq),y=pad.t+ph-(r.spectrum[b]/specMax)*ph*0.95;
+    if(first){ctx.moveTo(x,y);first=false;}else ctx.lineTo(x,y);
+  }
+  ctx.lineTo(toX(maxBin*r.binHz),pad.t+ph);ctx.lineTo(toX(minFreqShow),pad.t+ph);ctx.closePath();
+  ctx.fillStyle='rgba(79,240,176,0.06)';ctx.fill();
+  for(let h=0;h<12;h++){
+    const centerHz=r.meanPitch*(h+1);
+    if(centerHz>maxFreqShow||centerHz<minFreqShow)continue;
+    const band=getHarmonicBand(centerHz,h+1);
+    const loHz=Math.max(minFreqShow,band.loHz),hiHz=band.hiHz;
+    const loBin=Math.max(minBin,Math.round(loHz/r.binHz));
+    const hiBin=Math.min(Math.round(hiHz/r.binHz),r.half-1);
+    let peakBin=loBin,peakAmp=0;
+    for(let b=loBin;b<=hiBin;b++){if(r.spectrum[b]>peakAmp){peakAmp=r.spectrum[b];peakBin=b;}}
+    const peakFreq=peakBin*r.binHz;
+    if(peakFreq<minFreqShow||peakFreq>maxFreqShow)continue;
+    const x=toX(peakFreq),y=pad.t+ph-(peakAmp/specMax)*ph*0.95;
+    ctx.strokeStyle=HARMONIC_COLORS[h]+'99';ctx.lineWidth=1.5*dpr;ctx.setLineDash([3*dpr,3*dpr]);
+    ctx.beginPath();ctx.moveTo(x,pad.t+ph);ctx.lineTo(x,y+6*dpr);ctx.stroke();ctx.setLineDash([]);
+    ctx.beginPath();ctx.arc(x,y,5*dpr,0,Math.PI*2);ctx.fillStyle=HARMONIC_COLORS[h];ctx.fill();
+      const numY=Math.max(pad.t+8*dpr,y-16*dpr);
+      const hzY=Math.min(pad.t+ph-8*dpr,y+14*dpr);
+      ctx.textBaseline='middle';
+      ctx.textAlign='center';
+      ctx.font=`bold ${10*dpr}px monospace`;
+      ctx.lineWidth=3*dpr;ctx.strokeStyle='rgba(0,0,0,0.6)';
+      ctx.strokeText(h+1,x,numY);
+      ctx.fillStyle=HARMONIC_COLORS[h];
+      ctx.fillText(h+1,x,numY);
+      ctx.font=`${9*dpr}px monospace`;
+      ctx.lineWidth=3*dpr;ctx.strokeStyle='rgba(0,0,0,0.6)';
+      ctx.strokeText((peakFreq>=1000?(peakFreq/1000).toFixed(1)+'k':Math.round(peakFreq))+'Hz',x,hzY);
+      ctx.fillStyle=HARMONIC_COLORS[h]+'cc';
+      ctx.fillText((peakFreq>=1000?(peakFreq/1000).toFixed(1)+'k':Math.round(peakFreq))+'Hz',x,hzY);
+  }
+    if(r.subHarmonics){
+      r.subHarmonics.forEach(sh=>{
+        if(!sh.detected||sh.hz<minFreqShow||sh.hz>maxFreqShow)return;
+      const band=getHarmonicBand(sh.hz);
+      const loHz=Math.max(minFreqShow,band.loHz),hiHz=band.hiHz;
+      const loBin=Math.max(1,Math.round(loHz/r.binHz));
+      const hiBin=Math.min(Math.round(hiHz/r.binHz),r.half-1);
+      let peakBin=loBin,peakAmp=0;
+      for(let b=loBin;b<=hiBin;b++){if(r.spectrum[b]>peakAmp){peakAmp=r.spectrum[b];peakBin=b;}}
+      const peakFreq=peakBin*r.binHz;
+      const x=toX(peakFreq),y=pad.t+ph-(peakAmp/specMax)*ph*0.95;
+      const subColor='#ffa040';
+      ctx.strokeStyle=subColor+'88';ctx.lineWidth=1.5*dpr;ctx.setLineDash([2*dpr,4*dpr]);
+      ctx.beginPath();ctx.moveTo(x,pad.t+ph);ctx.lineTo(x,y+8*dpr);ctx.stroke();ctx.setLineDash([]);
+      const ds=5*dpr;
+      ctx.beginPath();ctx.moveTo(x,y-ds);ctx.lineTo(x+ds,y);ctx.lineTo(x,y+ds);ctx.lineTo(x-ds,y);ctx.closePath();
+      ctx.fillStyle=subColor;ctx.fill();
+      const subY=Math.max(pad.t+10*dpr,y-12*dpr);
+      ctx.textBaseline='middle';
+      ctx.textAlign='center';
+      ctx.font=`bold ${8*dpr}px monospace`;
+      ctx.lineWidth=2*dpr;ctx.strokeStyle='rgba(0,0,0,0.6)';
+      ctx.strokeText('÷'+sh.divisor,x,subY);
+      ctx.fillStyle=subColor;
+      ctx.fillText('÷'+sh.divisor,x,subY);
+      });
+    }
+    ctx.textBaseline='alphabetic';
+  // Hz軸ラベルは30Hzと統合済み
+}
+
+  // ============================================================
+  // 画像保存
+  // ============================================================
+  function dataUrlToBlob(dataUrl){
+    const parts=dataUrl.split(',');
+    const mime=(parts[0].match(/:(.*?);/)||[])[1]||'image/png';
+    const binary=atob(parts[1]||'');
+    const len=binary.length;
+    const bytes=new Uint8Array(len);
+    for(let i=0;i<len;i++) bytes[i]=binary.charCodeAt(i);
+    return new Blob([bytes],{type:mime});
+  }
+
+  function renderShareImage(){
+    if(!lastResult) return null;
+    const r=lastResult;
+    const vt=r.voiceType||VOICE_TYPES[VOICE_TYPES.length-1];
+    const vtColor=vt.color;
+
+    const exportScale=2; // 保存画像の解像度を2倍にしてシャープ化
+    const W=600,H=960;
+  const c=document.createElement('canvas');c.width=W*exportScale;c.height=H*exportScale;
+  const ctx=c.getContext('2d');
+  ctx.setTransform(exportScale,0,0,exportScale,0,0);
+
+  // roundRect polyfill（古いSafari対応）
+  if(!ctx.roundRect){
+    ctx.roundRect=function(x,y,w,h,r2){
+      const r3=Math.min(r2,w/2,h/2);
+      this.beginPath();this.moveTo(x+r3,y);this.lineTo(x+w-r3,y);this.arcTo(x+w,y,x+w,y+r3,r3);
+      this.lineTo(x+w,y+h-r3);this.arcTo(x+w,y+h,x+w-r3,y+h,r3);
+      this.lineTo(x+r3,y+h);this.arcTo(x,y+h,x,y+h-r3,r3);
+      this.lineTo(x,y+r3);this.arcTo(x,y,x+r3,y,r3);this.closePath();
+    };
+  }
+
+  // ── 背景 ──
+  ctx.fillStyle='#0a0c10';ctx.fillRect(0,0,W,H);
+  // 上部グロー（キャラカラー）
+  const grd=ctx.createRadialGradient(W/2,0,0,W/2,0,300);
+  grd.addColorStop(0,vtColor+'18');grd.addColorStop(1,'transparent');
+  ctx.fillStyle=grd;ctx.fillRect(0,0,W,300);
+  // 枠線
+  ctx.strokeStyle=vtColor+'40';ctx.lineWidth=1.5;ctx.strokeRect(1,1,W-2,H-2);
+  // 内側点線枠
+  ctx.setLineDash([4,6]);ctx.strokeStyle='#1e2330';ctx.lineWidth=1;ctx.strokeRect(8,8,W-16,H-16);
+  ctx.setLineDash([]);
+
+  // ── ヘッダー ──
+  ctx.fillStyle='#4ff0b0';ctx.font='bold 13px monospace';ctx.textAlign='center';
+  ctx.fillText('VOICE ANALYZER PRO',W/2,30);
+  // 性別バッジ
+  const gLabel=r.genderLabel||'';
+  if(gLabel){
+    const gx=W-24,gy=18;
+    ctx.font='10px monospace';
+    const gw=ctx.measureText(gLabel).width+14;
+    ctx.fillStyle='#1e2330';
+    ctx.beginPath();ctx.roundRect(gx-gw,gy-12,gw,18,4);ctx.fill();
+    ctx.fillStyle='#8a9ab0';ctx.textAlign='right';
+    ctx.fillText(gLabel,gx-7,gy+1);
+  }
+
+  // ── セパレーター ──
+  ctx.strokeStyle=vtColor+'30';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(40,40);ctx.lineTo(W-40,40);ctx.stroke();
+
+  // ── キャラクターアイコン ──
+  ctx.font='38px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(vt.icon,W/2,78);
+  ctx.textBaseline='alphabetic';
+
+  // ── キャラクター名 ──
+  ctx.fillStyle=vtColor;ctx.font='bold 24px sans-serif';ctx.textAlign='center';
+  ctx.fillText(vt.name,W/2,120);
+
+  // ── タグ pill ──
+  ctx.font='bold 11px monospace';
+  const tagW=ctx.measureText(vt.tag).width+20;
+  const tagX=(W-tagW)/2,tagY=130;
+  ctx.fillStyle=vtColor+'20';
+  ctx.beginPath();ctx.roundRect(tagX,tagY,tagW,20,10);ctx.fill();
+  ctx.strokeStyle=vtColor+'60';ctx.lineWidth=1;
+  ctx.beginPath();ctx.roundRect(tagX,tagY,tagW,20,10);ctx.stroke();
+  ctx.fillStyle=vtColor;ctx.textAlign='center';
+  ctx.fillText(vt.tag,W/2,144);
+
+  // ── 総合スコア ──
+  const vColor=r.vClass==='good'?'#4ff0b0':r.vClass==='warn'?'#ffd166':'#ff6b6b';
+  ctx.fillStyle=vColor;ctx.font='bold 70px monospace';ctx.textAlign='center';
+  ctx.fillText(r.totalScore+'点',W/2,228);
+  ctx.fillStyle=vColor+'99';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(r.vTitle,W/2,250);
+
+  // ── 特徴タグ（traits pills） ──
+  const traits=vt.traits||[];
+  ctx.font='10px monospace';
+  const pillH=18,pillGap=8;
+  const pillWidths=traits.map(t=>ctx.measureText(t).width+16);
+  const totalPillW=pillWidths.reduce((a,b)=>a+b,0)+(traits.length-1)*pillGap;
+  let px=(W-totalPillW)/2,py=264;
+  traits.forEach((t,i)=>{
+    const pw=pillWidths[i];
+    ctx.fillStyle=vtColor+'18';
+    ctx.beginPath();ctx.roundRect(px,py,pw,pillH,9);ctx.fill();
+    ctx.strokeStyle=vtColor+'50';ctx.lineWidth=0.8;
+    ctx.beginPath();ctx.roundRect(px,py,pw,pillH,9);ctx.stroke();
+    ctx.fillStyle=vtColor+'ee';ctx.textAlign='left';
+    ctx.fillText(t,px+8,py+12);
+    px+=pw+pillGap;
+  });
+
+  // ── セパレーター ──
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(30,292);ctx.lineTo(W-30,292);ctx.stroke();
+
+  // ── 4軸スコアバー ──
+  const metrics=[
+    {label:'🎻 倍音',score:r.richScore,color:'#7eb8ff'},
+    {label:'🌊 ゆらぎ',score:r.flickerScore,color:'#4ff0b0'},
+    {label:'🔬 安定性',score:r.stabilityScore,color:'#c084fc'},
+    {label:'🎵 抑揚',score:r.intonationScore,color:'#ffd166'},
+  ];
+  const col1X=30,col2X=W/2+10;
+  const barAreaW=W/2-60,barH2=8;
+  metrics.forEach((m,i)=>{
+    const isRight=i%2===1;
+    const bx=isRight?col2X:col1X;
+    const by=308+Math.floor(i/2)*36;
+    ctx.fillStyle='#8a9ab0';ctx.font='10px sans-serif';ctx.textAlign='left';
+    ctx.fillText(m.label,bx,by+8);
+    ctx.fillStyle='#c8d0e0';ctx.font='bold 11px monospace';ctx.textAlign='right';
+    ctx.fillText(m.score+'pt',bx+barAreaW,by+8);
+    // バー背景
+    ctx.fillStyle='#1a1e28';
+    ctx.beginPath();ctx.roundRect(bx,by+12,barAreaW,barH2,4);ctx.fill();
+    // バー本体
+    const fw=Math.max(0,(m.score/100)*barAreaW);
+    ctx.fillStyle=m.color+'cc';
+    ctx.beginPath();ctx.roundRect(bx,by+12,fw,barH2,4);ctx.fill();
+  });
+
+  // ── セパレーター ──
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(30,386);ctx.lineTo(W-30,386);ctx.stroke();
+
+  // ── 近い声優 ──
+  const seiyuu=(r.isFemale ? vt.seiyuuF : vt.seiyuuM)||[];
+  if(seiyuu.length>0){
+    ctx.fillStyle='#8a9ab0';ctx.font='10px monospace';ctx.textAlign='left';
+    ctx.fillText('🎙️ 似ている声優',30,406);
+    seiyuu.forEach((name,i)=>{
+      const sx=30+i*(W-60)/3,sy=430;
+      const sw=(W-60)/3-8;
+      ctx.fillStyle='#111318';
+      ctx.beginPath();ctx.roundRect(sx,sy-16,sw,26,6);ctx.fill();
+      ctx.strokeStyle=vtColor+'30';ctx.lineWidth=1;
+      ctx.beginPath();ctx.roundRect(sx,sy-16,sw,26,6);ctx.stroke();
+      ctx.fillStyle='#c8d0e0';ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+      ctx.fillText(name,sx+sw/2,sy+3);
+    });
+  }
+
+  // ── セパレーター ──
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(30,450);ctx.lineTo(W-30,450);ctx.stroke();
+
+    // ── 数値データ行 ──
+    const goodCol='#4ff0b0',warnCol='#ffd166',badCol='#ff6b6b',neutralCol='#c8d0e0';
+    const pitch=r.meanPitch;
+    const pitchGood=r.isFemale?(pitch>=165&&pitch<=260):(pitch>=85&&pitch<=165);
+    const pitchWarn=r.isFemale?(pitch>=145&&pitch<=300):(pitch>=70&&pitch<=200);
+    const pitchCol=pitchGood?goodCol:pitchWarn?warnCol:badCol;
+    const countCol=r.detectedCount>=9?goodCol:r.detectedCount>=5?warnCol:badCol;
+    const jitterCol=r.jitter<1.0?goodCol:r.jitter<2.0?warnCol:badCol;
+    const shimmerCol=r.shimmer<1.0?goodCol:r.shimmer<2.0?warnCol:badCol;
+    const into=r.intonationSemitones;
+    const intoCol=(into>=3&&into<=10)?goodCol:(into>=1?warnCol:badCol);
+
+    const pitchIdeal=r.isFemale?'165〜260Hz':'85〜165Hz';
+    const stats=[
+      ['基音',`${Math.round(r.meanPitch)}Hz / ${pitchIdeal}`,pitchCol],
+      ['倍音数',`${r.detectedCount}/11`,countCol],
+      ['1/fゆらぎ',`${r.flickerSlope.toFixed(2)} / −0.7〜−1.3`,(Math.abs(r.flickerSlope+1.0)<=0.2?goodCol:Math.abs(r.flickerSlope+1.0)<=0.4?warnCol:badCol)],
+      ['Jitter',`${r.jitter.toFixed(2)}% / 1.0%`,jitterCol],
+      ['Shimmer',`${r.shimmer.toFixed(1)}dB / 1.0dB`,shimmerCol],
+      ['抑揚',`${r.intonationSemitones.toFixed(1)}st / 3〜10st`,intoCol],
+    ];
+    const cols=3;
+    const statW=(W-60)/cols;
+    const rowY=[468,498]; // 1段目/2段目
+    stats.forEach((s,i)=>{
+      const row=Math.floor(i/cols);
+      const col=i%cols;
+      const sx=30+col*statW+statW/2;
+      const titleY=rowY[row];
+      ctx.fillStyle='#8a9ab0';ctx.font='9px monospace';ctx.textAlign='center';
+      ctx.fillText(s[0],sx,titleY);
+      ctx.fillStyle=s[2]||neutralCol;ctx.font='bold 10px monospace';ctx.textAlign='center';
+      ctx.fillText(s[1],sx,titleY+16);
+    });
+
+    // ── METRICS 目安（理想値＋説明） ──
+    const metricsTop=556;
+    ctx.fillStyle='#cfe3ff';ctx.font='bold 10px monospace';ctx.textAlign='left';
+    ctx.fillText('METRICS 目安（理想値 + 説明）',30,metricsTop-10);
+    // セクション下線
+    ctx.strokeStyle='#1a1e28';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(30,metricsTop-6);ctx.lineTo(W-30,metricsTop-6);ctx.stroke();
+
+    const leftX=30,rightX=W/2+10;
+    const rowGap=34,subGap=14;
+    const rowsStart=metricsTop+18;
+    const idealCol='#7eb8ff';
+    const rowsLeft=[
+      {title:'基音',ideal:'男性85〜165Hz / 女性165〜260Hz（参考）',desc:'声の高さの目安'},
+      {title:'倍音数',ideal:'11中9以上で高評価',desc:'深み・温かみの指標'},
+      {title:'1/fゆらぎ',ideal:'−0.7〜−1.3 が理想',desc:'心地よさの指標'}
+    ];
+    const rowsRight=[
+      {title:'Jitter',ideal:'1%以下で安定',desc:'ピッチのブレ'},
+      {title:'Shimmer',ideal:'1dB以下で安定',desc:'音量のブレ'},
+      {title:'抑揚',ideal:'3〜10半音が自然',desc:'高低差（表現幅）'}
+    ];
+    rowsLeft.forEach((r,i)=>{
+      const y=rowsStart+i*rowGap;
+      ctx.fillStyle='#c8d0e0';ctx.font='bold 9px sans-serif';ctx.textAlign='left';
+      ctx.fillText(r.title+'  ',leftX,y);
+      const w=ctx.measureText(r.title+'  ').width;
+      ctx.fillStyle=idealCol;ctx.font='bold 9px sans-serif';
+      ctx.fillText(r.ideal,leftX+w,y);
+      ctx.fillStyle='#8a9ab0';ctx.font='9px sans-serif';
+      ctx.fillText('・'+r.desc,leftX,y+subGap);
+    });
+    rowsRight.forEach((r,i)=>{
+      const y=rowsStart+i*rowGap;
+      ctx.fillStyle='#c8d0e0';ctx.font='bold 9px sans-serif';ctx.textAlign='left';
+      ctx.fillText(r.title+'  ',rightX,y);
+      const w=ctx.measureText(r.title+'  ').width;
+      ctx.fillStyle=idealCol;ctx.font='bold 9px sans-serif';
+      ctx.fillText(r.ideal,rightX+w,y);
+      ctx.fillStyle='#8a9ab0';ctx.font='9px sans-serif';
+      ctx.fillText('・'+r.desc,rightX,y+subGap);
+    });
+
+  // ── 倍音スペクトル（Hz） ──
+    const specTitleY=rowsStart+3*rowGap+14;
+  ctx.fillStyle='#c8d0e0';ctx.font='bold 10px monospace';ctx.textAlign='left';
+  ctx.fillText('倍音スペクトル (Hz)',30,specTitleY);
+    const specBox={x:30,y:specTitleY+10,w:W-60,h:190};
+  ctx.fillStyle='#080a0e';ctx.fillRect(specBox.x,specBox.y,specBox.w,specBox.h);
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;ctx.strokeRect(specBox.x,specBox.y,specBox.w,specBox.h);
+    if(r.spectrum&&r.binHz&&r.half){
+      const pad={l:40,r:12,t:24,b:32};
+      const pw=specBox.w-pad.l-pad.r,ph=specBox.h-pad.t-pad.b;
+      if(pw>0&&ph>0){
+        const minFreqShow=30,maxFreqShow=Math.min(r.meanPitch*13,8000);
+        const minBin=Math.max(1,Math.floor(minFreqShow/r.binHz));
+        const maxBin=Math.min(Math.ceil(maxFreqShow/r.binHz),r.half-1);
+        const freqRange=maxFreqShow-minFreqShow;
+        if(freqRange>0){
+          let specMax=0;for(let b=minBin;b<=maxBin;b++)if(r.spectrum[b]>specMax)specMax=r.spectrum[b];
+          if(specMax>0){
+            const toX=freq=>specBox.x+pad.l+((freq-minFreqShow)/freqRange)*pw;
+            const baseY=specBox.y+pad.t+ph;
+
+            ctx.strokeStyle='rgba(30,35,48,0.8)';ctx.lineWidth=1;
+            for(let i=1;i<=3;i++){
+              const y=specBox.y+pad.t+ph/4*i;
+              ctx.beginPath();ctx.moveTo(specBox.x+pad.l,y);ctx.lineTo(specBox.x+pad.l+pw,y);ctx.stroke();
+            }
+            let tickStep=100;if(maxFreqShow>3000)tickStep=500;if(maxFreqShow>6000)tickStep=1000;
+            ctx.fillStyle='#3a4050';ctx.font='8px monospace';ctx.textAlign='left';
+            ctx.fillText('30Hz',specBox.x+pad.l,baseY+12);
+            const freqTicks=[];
+            for(let f=tickStep;f<maxFreqShow;f+=tickStep){if(f>=minFreqShow)freqTicks.push(f);}
+            ctx.strokeStyle='rgba(30,35,48,0.6)';ctx.lineWidth=1;
+            freqTicks.forEach(f=>{
+              const x=toX(f);ctx.beginPath();ctx.moveTo(x,specBox.y+pad.t);ctx.lineTo(x,baseY);ctx.stroke();
+              ctx.fillStyle='#3a4050';ctx.font='8px monospace';ctx.textAlign='center';
+              ctx.fillText(f>=1000?(f/1000).toFixed(f%1000===0?0:1)+'k':f+'',x,baseY+12);
+            });
+
+            ctx.beginPath();ctx.strokeStyle='rgba(79,240,176,0.5)';ctx.lineWidth=1.2;
+            let first=true;
+            for(let b=minBin;b<=maxBin;b++){
+              const freq=b*r.binHz,x=toX(freq),y=specBox.y+pad.t+ph-(r.spectrum[b]/specMax)*ph*0.95;
+              if(first){ctx.moveTo(x,y);first=false;}else ctx.lineTo(x,y);
+            }
+            ctx.stroke();
+            ctx.beginPath();
+            first=true;
+            for(let b=minBin;b<=maxBin;b++){
+              const freq=b*r.binHz,x=toX(freq),y=specBox.y+pad.t+ph-(r.spectrum[b]/specMax)*ph*0.95;
+              if(first){ctx.moveTo(x,y);first=false;}else ctx.lineTo(x,y);
+            }
+            ctx.lineTo(toX(maxBin*r.binHz),baseY);ctx.lineTo(toX(minFreqShow),baseY);ctx.closePath();
+            ctx.fillStyle='rgba(79,240,176,0.06)';ctx.fill();
+
+            for(let h=0;h<12;h++){
+              const centerHz=r.meanPitch*(h+1);
+              if(centerHz>maxFreqShow||centerHz<minFreqShow)continue;
+              const band=getHarmonicBand(centerHz,h+1);
+              const loHz=Math.max(minFreqShow,band.loHz),hiHz=band.hiHz;
+              const loBin=Math.max(minBin,Math.round(loHz/r.binHz));
+              const hiBin=Math.min(Math.round(hiHz/r.binHz),r.half-1);
+              let peakBin=loBin,peakAmp=0;
+              for(let b=loBin;b<=hiBin;b++){if(r.spectrum[b]>peakAmp){peakAmp=r.spectrum[b];peakBin=b;}}
+              const peakFreq=peakBin*r.binHz;
+              if(peakFreq<minFreqShow||peakFreq>maxFreqShow)continue;
+              const x=toX(peakFreq),y=specBox.y+pad.t+ph-(peakAmp/specMax)*ph*0.95;
+              ctx.strokeStyle=HARMONIC_COLORS[h]+'99';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+              ctx.beginPath();ctx.moveTo(x,baseY);ctx.lineTo(x,y+6);ctx.stroke();ctx.setLineDash([]);
+              ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle=HARMONIC_COLORS[h];ctx.fill();
+              const numY=Math.max(specBox.y+pad.t+8,y-16);
+              const hzY=Math.min(specBox.y+pad.t+ph-8,y+14);
+              ctx.textBaseline='middle';
+              ctx.textAlign='center';
+              ctx.font='bold 10px monospace';
+              ctx.lineWidth=3;ctx.strokeStyle='rgba(0,0,0,0.6)';
+              ctx.strokeText(h+1,x,numY);
+              ctx.fillStyle=HARMONIC_COLORS[h];
+              ctx.fillText(h+1,x,numY);
+              ctx.font='9px monospace';
+              ctx.lineWidth=3;ctx.strokeStyle='rgba(0,0,0,0.6)';
+              ctx.strokeText((peakFreq>=1000?(peakFreq/1000).toFixed(1)+'k':Math.round(peakFreq))+'Hz',x,hzY);
+              ctx.fillStyle=HARMONIC_COLORS[h]+'cc';
+              ctx.fillText((peakFreq>=1000?(peakFreq/1000).toFixed(1)+'k':Math.round(peakFreq))+'Hz',x,hzY);
+            }
+            if(r.subHarmonics){
+              r.subHarmonics.forEach(sh=>{
+                if(!sh.detected||sh.hz<minFreqShow||sh.hz>maxFreqShow)return;
+                const band=getHarmonicBand(sh.hz);
+                const loHz=Math.max(minFreqShow,band.loHz),hiHz=band.hiHz;
+                const loBin=Math.max(1,Math.round(loHz/r.binHz));
+                const hiBin=Math.min(Math.round(hiHz/r.binHz),r.half-1);
+                let peakBin=loBin,peakAmp=0;
+                for(let b=loBin;b<=hiBin;b++){if(r.spectrum[b]>peakAmp){peakAmp=r.spectrum[b];peakBin=b;}}
+                const peakFreq=peakBin*r.binHz;
+                const x=toX(peakFreq),y=specBox.y+pad.t+ph-(peakAmp/specMax)*ph*0.95;
+                const subColor='#ffa040';
+                ctx.strokeStyle=subColor+'88';ctx.lineWidth=1.5;ctx.setLineDash([2,4]);
+                ctx.beginPath();ctx.moveTo(x,baseY);ctx.lineTo(x,y+8);ctx.stroke();ctx.setLineDash([]);
+                const ds=5;
+                ctx.beginPath();ctx.moveTo(x,y-ds);ctx.lineTo(x+ds,y);ctx.lineTo(x,y+ds);ctx.lineTo(x-ds,y);ctx.closePath();
+                ctx.fillStyle=subColor;ctx.fill();
+                const subY=Math.max(specBox.y+pad.t+10,y-12);
+                ctx.textBaseline='middle';
+                ctx.textAlign='center';
+                ctx.font='bold 8px monospace';
+                ctx.lineWidth=2;ctx.strokeStyle='rgba(0,0,0,0.6)';
+                ctx.strokeText('÷'+sh.divisor,x,subY);
+                ctx.fillStyle=subColor;
+                ctx.fillText('÷'+sh.divisor,x,subY);
+              });
+            }
+            ctx.textBaseline='alphabetic';
+          }
+        }
+      }
+    }
+
+  // ── フッター ──
+  ctx.strokeStyle='#1e2330';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(30,880);ctx.lineTo(W-30,880);ctx.stroke();
+  ctx.fillStyle='#2a3040';ctx.font='10px monospace';ctx.textAlign='center';
+    ctx.fillText('voice-analyzer-pro',W/2,900);
+
+  // ── ハッシュタグ ──
+  ctx.fillStyle='#1e3040';ctx.font='9px monospace';ctx.textAlign='center';
+    ctx.fillText('#ボイス診断  #声質分析  #VoiceAnalyzerPro',W/2,918);
+
+  // ── 下部グロー ──
+  const grd2=ctx.createRadialGradient(W/2,H,0,W/2,H,200);
+  grd2.addColorStop(0,vtColor+'10');grd2.addColorStop(1,'transparent');
+  ctx.fillStyle=grd2;ctx.fillRect(0,H-200,W,200);
+
+    const dataUrl=c.toDataURL('image/png');
+    const blob=dataUrlToBlob(dataUrl);
+    return {dataUrl, blob};
+  }
+
+  function saveImage(){
+    const rendered=renderShareImage();
+    if(!rendered) return;
+    const {dataUrl}=rendered;
+    const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    if(isIOS){
+      const w=window.open('','_blank');
+      if(w){w.document.write('<html><body style="margin:0;background:#000"><img src="'+dataUrl+'" style="max-width:100%"/><br><p style="color:#fff;text-align:center;font-size:14px">画像を長押しして保存してください</p></body></html>');w.document.close();}
+      else alert('ポップアップがブロックされています。ブラウザの設定でポップアップを許可してから再度お試しください。');
+    }
+    else{const link=document.createElement('a');link.download='voice_result.png';link.href=dataUrl;link.click();}
+  }
+
+// ============================================================
+// ツイート
+// ============================================================
+  function tweetResult(){
+    if(!lastResult)return;
+    const r=lastResult;
+    const verdict=(r.voiceType&&r.voiceType.name)?r.voiceType.name:'診断結果';
+    const url=(location&&location.href?location.href.split('#')[0]:'https://anidesu0407.github.io/voice-analyzer-pro/');
+    const text=`自分の声を本格分析してみた！\n\n結果: ${verdict}\nスコア: ${r.totalScore}点\n基音: ${Math.round(r.meanPitch)}Hz / 倍音: ${r.detectedCount}/11個\n1/fゆらぎ: ${r.flickerSlope.toFixed(2)} / Jitter: ${r.jitter.toFixed(2)}% / Shimmer: ${r.shimmer.toFixed(2)}dB\n抑揚: ${r.intonationSemitones.toFixed(1)}st\n\n${url}\n\n#ボイス診断 #声質分析 #VoiceAnalyzerPro`;
+    window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
+  }
+
+// ============================================================
+// キャラクター判定
+// ============================================================
+const VOICE_TYPES=[
+  {
+    id:'legend',
+    name:'レジェンドボイス',
+    icon:'👑',
+    color:'#ffd166',
+    tag:'最高峰',
+    desc:'倍音・安定性・抑揚のすべてが高次元で揃った、まさに「いい声」の理想形。聴く人を引き込む圧倒的な声の持ち主です。',
+    traits:['倍音豊富','超安定','自然なゆらぎ','表現力◎'],
+    traitColor:'#ffd166',
+    seiyuuM:['大塚明夫','中田譲治','堀内賢雄'],
+    seiyuuF:['林原めぐみ','田中敦子','平野綾'],
+    match:({totalScore})=>totalScore>=76,
+  },
+  {
+    id:'deep_rich',
+    name:'ダークリッチボイス',
+    icon:'🌑',
+    color:'#7eb8ff',
+    tag:'低音×倍音',
+    desc:'低めのピッチに豊かな倍音が乗った、深みと包容力のある声。落ち着いた存在感があり、ナレーション向きです。',
+    traits:['低音域','倍音豊富','落ち着き','安定感'],
+    traitColor:'#7eb8ff',
+    seiyuuM:['玄田哲章','津田健次郎','大塚芳忠'],
+    seiyuuF:['内田真礼','朴璐美','甲斐田裕子'],
+    match:({safePitch,richScore,stabilityScore})=>safePitch<130&&richScore>=57&&stabilityScore>=52,
+  },
+  {
+    id:'bright_tenor',
+    name:'ブライトテノール',
+    icon:'☀️',
+    color:'#7ee3ff',
+    tag:'高倍音×明瞭',
+    desc:'明るく通りのいい声質。倍音が豊かで抜けがよく、エネルギーに満ちた印象を与えます。アナウンス・話声に向いています。',
+    traits:['中高音域','倍音◎','明瞭感','エネルギッシュ'],
+    traitColor:'#ffd166',
+    seiyuuM:['宮野真守','梶裕貴','神谷浩史'],
+    seiyuuF:['水樹奈々','花澤香菜','雨宮天'],
+    match:({safePitch,richScore,intonationScore})=>safePitch>=130&&safePitch<230&&richScore>=57&&intonationScore>=47,
+  },
+  {
+    id:'silky',
+    name:'シルキーボイス',
+    icon:'🪶',
+    color:'#c084fc',
+    tag:'滑らか×安定',
+    desc:'声のブレが非常に少なく、なめらかで心地よい声質。長時間聴いても疲れない、耳触りのいい声です。',
+    traits:['超安定','滑らか','Jitter低','Shimmer低'],
+    traitColor:'#c084fc',
+    seiyuuM:['中村悠一','石田彰','杉田智和'],
+    seiyuuF:['坂本真綾','早見沙織','水瀬いのり'],
+    match:({stabilityScore,jitter,shimmer})=>stabilityScore>=72&&jitter<0.85&&shimmer<0.85,
+  },
+  {
+    id:'emotional',
+    name:'エモーショナルボイス',
+    icon:'🎭',
+    color:'#ff6b6b',
+    tag:'表現力×抑揚',
+    desc:'豊かな抑揚と感情表現が特徴の声。聴く人の感情を揺さぶる、表現力の高い声の持ち主です。',
+    traits:['抑揚豊か','感情表現◎','表現力高'],
+    traitColor:'#ff6b6b',
+    seiyuuM:['山寺宏一','小野大輔','関智一'],
+    seiyuuF:['沢城みゆき','能登麻美子','悠木碧'],
+    match:({intonationSemitones,intonationScore,richScore})=>intonationSemitones>=5.5&&intonationScore>=62&&richScore>=42,
+  },
+  {
+    id:'natural',
+    name:'ナチュラルボイス',
+    icon:'🌿',
+    color:'#4ff0b0',
+    tag:'バランス型',
+    desc:'特定の突出した特徴はないものの、全体的にバランスの取れた聴きやすい声。日常会話・配信に向いています。',
+    traits:['バランス型','聴きやすい','自然体'],
+    traitColor:'#4ff0b0',
+    seiyuuM:['花江夏樹','梅原裕一郎','内山昂輝'],
+    seiyuuF:['石川由依','東山奈央','鬼頭明里'],
+    match:({totalScore,richScore,stabilityScore})=>totalScore>=47&&richScore>=37&&stabilityScore>=42,
+  },
+  {
+    id:'husky',
+    name:'ハスキーボイス',
+    icon:'🔥',
+    color:'#ffa040',
+    tag:'独特の質感',
+    desc:'ざらつきのある独特の声質。Shimmerが高めでも個性として際立ちます。クセになる魅力的な声です。',
+    traits:['独特の質感','個性的','印象に残る'],
+    traitColor:'#ffa040',
+    seiyuuM:['置鮎龍太郎','緑川光','中井和哉'],
+    seiyuuF:['上田麗奈','井上喜久子','小清水亜美'],
+    match:({shimmer,richScore})=>shimmer>=1.4&&richScore>=32,
+  },
+  {
+    id:'developing',
+    name:'ポテンシャルボイス',
+    icon:'🌱',
+    color:'#8a9ab0',
+    tag:'伸びしろあり',
+    desc:'まだ声の特性が安定していませんが、トレーニング次第で大きく伸びるポテンシャルを秘めています。',
+    traits:['発展途上','練習で改善','可能性◎'],
+    traitColor:'#8a9ab0',
+    seiyuuM:[],
+    seiyuuF:[],
+    match:()=>true,
+  },
+];
+
+function detectVoiceType(params){
+  for(const vt of VOICE_TYPES){
+    if(vt.match(params)) return vt;
+  }
+  return VOICE_TYPES[VOICE_TYPES.length-1];
+}
+
+function renderVoiceType(vt){
+  const box=document.getElementById('voiceTypeBox');
+  box.style.setProperty('--vt-color',vt.color);
+  box.style.border='1px solid '+vt.color+'40';
+  document.getElementById('vtIcon').textContent=vt.icon;
+  document.getElementById('vtName').textContent=vt.name;
+  document.getElementById('vtTag').textContent=vt.tag;
+  document.getElementById('vtDesc').textContent=vt.desc;
+  const traitsEl=document.getElementById('vtTraits');
+  traitsEl.innerHTML='';
+  vt.traits.forEach(t=>{
+    const span=document.createElement('span');
+    span.className='vt-trait';
+    span.style.color=vt.traitColor;
+    span.style.borderColor=vt.traitColor+'55';
+    span.style.background=vt.traitColor+'12';
+    span.textContent=t;
+    traitsEl.appendChild(span);
+  });
+}
+
+function renderVoiceTypeGuide(){
+  const wrap=document.getElementById('voiceTypeGuide');
+  if(!wrap) return;
+  wrap.innerHTML='';
+  VOICE_TYPES.forEach(vt=>{
+    const item=document.createElement('div');
+    item.className='voice-type-item';
+    item.style.setProperty('--vt-color',vt.color);
+    item.innerHTML=
+      `<div class="voice-type-item-head">
+         <span class="voice-type-item-icon">${vt.icon}</span>
+         <div class="voice-type-item-name">${vt.name}</div>
+         <span class="voice-type-item-tag">${vt.tag}</span>
+       </div>
+       <div class="voice-type-item-desc">${vt.desc}</div>`;
+    wrap.appendChild(item);
+  });
+}
+
+renderVoiceTypeGuide();
+
+// ============================================================
+function nextPow2(n){let p=1;while(p<n)p<<=1;return p;}
+function linReg(xs,ys){
+  const n=xs.length;
+  if(n<2)return{slope:0,intercept:0};
+  const mx=xs.reduce((a,b)=>a+b,0)/n,my=ys.reduce((a,b)=>a+b,0)/n;
+  let num=0,den=0;
+  for(let i=0;i<n;i++){num+=(xs[i]-mx)*(ys[i]-my);den+=(xs[i]-mx)**2;}
+  const slope=den!==0?num/den:0;return{slope,intercept:my-slope*mx};
+}
+function fftMagnitude(x){
+  const N=x.length,re=Array.from(x),im=new Array(N).fill(0);
+  let j=0;
+  for(let i=1;i<N;i++){let bit=N>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j){[re[i],re[j]]=[re[j],re[i]];[im[i],im[j]]=[im[j],im[i]];}}
+  for(let len=2;len<=N;len<<=1){
+    const half2=len>>1;
+    const ang=-2*Math.PI/len,wRe=Math.cos(ang),wIm=Math.sin(ang);
+    for(let i=0;i<N;i+=len){
+      let cRe=1,cIm=0;
+      for(let k=0;k<half2;k++){
+        const uRe=re[i+k],uIm=im[i+k];
+        const vRe=re[i+k+half2]*cRe-im[i+k+half2]*cIm;
+        const vIm=re[i+k+half2]*cIm+im[i+k+half2]*cRe;
+        re[i+k]=uRe+vRe;im[i+k]=uIm+vIm;re[i+k+half2]=uRe-vRe;im[i+k+half2]=uIm-vIm;
+        const tmp=cRe*wRe-cIm*wIm;cIm=cRe*wIm+cIm*wRe;cRe=tmp;
+      }
+    }
+  }
+  return re.map((r,i)=>Math.sqrt(r*r+im[i]*im[i]));
+}
+</script>
+</body>
+</html>
+
